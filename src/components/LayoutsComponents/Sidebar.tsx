@@ -102,7 +102,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
             <div className="flex justify-center items-center relative">
                 <Link to="/auth/login" className="w-full flex justify-center">
                     <div
-                        className="absolute bottom-12 w-[80%] py-2 bg-[#f6f6f6] hover:bg-gray-100 shadow-md rounded-lg flex justify-center items-center gap-3 cursor-pointer transition-all duration-200"
+                        className="absolute bottom-12 w-[80%] py-2 bg-barColor hover:bg-[#f5edd9] shadow-md rounded-lg flex justify-center items-center gap-3 cursor-pointer transition-all duration-200"
                     >
                         <CiLogout className="w-6 h-6 text-[#222]" />
                         <p className="text-base font-medium text-[#222]">Log Out</p>

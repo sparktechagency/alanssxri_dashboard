@@ -1,29 +1,46 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Avatar, Upload } from "antd";
+import { Avatar, Form, FormProps, Input, Upload } from "antd";
+import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
-// import { useRoutes } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 
 const AddNew = () => {
-    // const router = useRoutes();
     const [profilePic, setProfilePic] = useState<File | null>(null);
-
+    const navigate = useNavigate();
     const profilePicUrl = profilePic ? URL.createObjectURL(profilePic) : null;
     const handleProfilePicUpload = (e: any) => {
         setProfilePic(e.file);
     };
 
-    const handleSubmit = () => {
+    type FieldType = {
+        name?: string;
+        position?: string;
+        email?: string;
+        phone?: string;
+        bio?: string;
+        education?: string;
+        barAdmission?: string;
+        sectors?: string;
+        experience?: string;
+        affiliation?: string;
+        facebook?: string;
+        twitter?: string;
+        instagram?: string;
+        linkedin?: string;
+    };
+
+    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+        console.log('Success:', values);
     };
 
     return (
-        <div className=" min-h-screen">
-            <div className=" p-5 bg-white rounded">
-                <div className=" flex gap-4 items-center">
-                    <IoMdArrowBack size={28} className=" text-primaryColor cursor-pointer" />
-                    <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">People Management</h2>
+        <div className="min-h-screen">
+            <div className="py-5 px-10 bg-white rounded">
+                <div className="flex gap-4 items-center">
+                    <IoMdArrowBack onClick={() => navigate(-1)} size={28} className="text-primaryColor cursor-pointer" />
+                    <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0">Add New</h2>
                 </div>
 
                 <div>
@@ -43,21 +60,150 @@ const AddNew = () => {
                                 <FaCamera className="text-white mt-[5px] w-6" />
                             </Upload>
                         </div>
-                        <div>
-                            <p className="text-xl md:text-2xl text-black font-bold capitalize">Al Ansari</p>
-                            <p className="text-sm text-black font-semibold">Super Admin</p>
-                            {profilePic && (
-                                <button
-                                    onClick={handleSubmit}
-                                    className=" bg-primaryColor cursor-pointer text-primary rounded-md mt-4 px-2 py-1"
-                                >
-                                    Upload Image
-                                </button>
-                            )}
-                        </div>
                     </div>
                 </div>
 
+                <div>
+                    <Form
+                        name="basic"
+                        layout="vertical"
+                        initialValues={{ remember: true }}
+                        onFinish={onFinish}
+                        autoComplete="off"
+                    >
+                        <h2 className="text-lg font-semibold mb-2">General Info</h2>
+                        <div className="flex gap-5 justify-between items-center">
+                            <Form.Item<FieldType>
+                                label="Full Name"
+                                name="name"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your full name!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+
+                            <Form.Item<FieldType>
+                                label="Position"
+                                name="position"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your position!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+                        </div>
+                        <div className="flex gap-5 justify-between items-center">
+                            <Form.Item<FieldType>
+                                label="Email"
+                                name="email"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your email!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+
+                            <Form.Item<FieldType>
+                                label="Phone Number"
+                                name="phone"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your phone number!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+                        </div>
+
+                        <Form.Item<FieldType>
+                            label="Bio"
+                            name="bio"
+                            className="w-full"
+                            rules={[{ required: true, message: 'Please input your bio!' }]}>
+                            <TextArea rows={8} placeholder="Write Here" className="w-full" />
+                        </Form.Item>
+
+                        <h2 className="text-lg font-semibold mb-2">Education & Qualification</h2>
+                        <div className="flex gap-5 justify-between items-center">
+                            <Form.Item<FieldType>
+                                label="Education"
+                                name="education"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your education!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+
+                            <Form.Item<FieldType>
+                                label="Bar Admission"
+                                name="barAdmission"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your bar admission!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+                        </div>
+                        <Form.Item<FieldType>
+                            label="Sectors"
+                            name="sectors"
+                            className="w-full"
+                            rules={[{ required: true, message: 'Please input your sectors!' }]}>
+                            <Input placeholder="Input Here" className="w-full" />
+                        </Form.Item>
+
+                        <h2 className="text-lg font-semibold mb-2">Experience & Affiliation</h2>
+                        <Form.Item<FieldType>
+                            label="Experience"
+                            name="experience"
+                            className="w-full"
+                            rules={[{ required: true, message: 'Please input your experience!' }]}>
+                            <TextArea rows={4} placeholder="Write Here" className="w-full" />
+                        </Form.Item>
+
+                        <Form.Item<FieldType>
+                            label="Affiliation"
+                            name="affiliation"
+                            className="w-full"
+                            rules={[{ required: true, message: 'Please input your affiliation!' }]}>
+                            <Input placeholder="Input Here" className="w-full" />
+                        </Form.Item>
+
+                        <h2 className="text-lg font-semibold mb-2">Social Links</h2>
+                        <div className="flex gap-5 justify-between items-center">
+                            <Form.Item<FieldType>
+                                label="Facebook"
+                                name="facebook"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your Facebook link!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+
+                            <Form.Item<FieldType>
+                                label="Twitter"
+                                name="twitter"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your Twitter link!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+                        </div>
+                        <div className="flex gap-5 justify-between items-center">
+                            <Form.Item<FieldType>
+                                label="Instagram"
+                                name="instagram"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your Instagram link!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+
+                            <Form.Item<FieldType>
+                                label="LinkedIn"
+                                name="linkedin"
+                                className="w-full"
+                                rules={[{ required: true, message: 'Please input your LinkedIn link!' }]}>
+                                <Input placeholder="Input Here" className="w-full" />
+                            </Form.Item>
+                        </div>
+
+                        <div className="flex justify-center mt-6 gap-4">
+                            <button type="reset" className=" border border-primaryColor text-primaryColor px-10 md:px-12 py-2 md:py-2.5 cursor-pointer rounded text-lg">
+                                cancel
+                            </button>
+                            <button type="submit" className=" bg-primaryColor text-white px-10 md:px-14 py-2 md:py-2.5 cursor-pointer rounded text-lg">
+                                Add
+                            </button>
+                        </div>
+                    </Form>
+                </div>
             </div>
         </div>
     );
