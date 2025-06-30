@@ -5,16 +5,16 @@ import logo from '../../assets/logo.svg'
 // import dashboard from '../../assets/sideBar/dashboard.svg'
 // import income from '../../assets/sideBar/income.svg'
 // import dashboardActive from '../../assets/sideBar/active-dashboard.svg'
-import { CiLogout, CiViewList } from 'react-icons/ci';
+import { CiLogout } from 'react-icons/ci';
 // import { useLocation } from 'react-router-dom';
 
 const { Sider } = Layout;
 
 import React from 'react';
 import { RiSettings2Line, RiUserLine } from 'react-icons/ri';
-import { MdOutlineDashboard } from 'react-icons/md';
-import { CgNotes } from 'react-icons/cg';
+import { MdListAlt, MdOutlineDashboard } from 'react-icons/md';
 import { BsExclamationCircle } from 'react-icons/bs';
+import { VscNote } from 'react-icons/vsc';
 
 interface SidebarProps {
     collapsed: boolean;
@@ -53,13 +53,13 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                         {
                             key: '3',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
-                            icon: <CiViewList className='w-6 h-6' />,
+                            icon: <MdListAlt className='w-6 h-6' />,
                             label: <Link className=' text-[16px]' to={`/sectors`}>Sectors</Link>,
                         },
                         {
                             key: '4',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
-                            icon: <CgNotes className='w-6 h-6' />,
+                            icon: <VscNote className='w-6 h-6' />,
                             label: <Link className=' text-[16px]' to={`/insights`}>Insights</Link>,
                         },
                         {
