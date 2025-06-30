@@ -50,3 +50,9 @@
 .ant-menu-submenu-title a {
   color: #1b1b1b !important;
 } 
+
+
+/* menu right border */
+:where(.css-dev-only-do-not-override-1ymnd5m).ant-menu-light.ant-menu-root.ant-menu {
+    border-inline-end: none !important;
+}
