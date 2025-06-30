@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+
+@theme {
+  --color-primaryColor: #af8b18;
+  --color-barColor: #f7f3e8;
+}
+/* Tiptap heading size */
+@layer base {
+
+  h1 { 
+    font-size: 1.4rem; 
+  }
+
+  h2 { 
+    font-size: 1.2rem; 
+  }
+
+  h3 { 
+    font-size: 1.1rem; 
+  }
+}
+
+/* Tiptap remove focus outline */
+.ProseMirror-focused {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+/* fix Tiptap padding */
+.tiptap.ProseMirror {
+  padding: 10px 30px;
+}
+
+
+/* ===================================== */
+
+/* menu item bg color  */
+
+/* Submenu item height customization */
+.custom-menu .ant-menu-submenu .ant-menu-item {
+  height: 35px !important;
+  line-height: 35px !important;
+}
+
+/* Submenu item color customization */
+.ant-menu-submenu-title {
+  background: #ffffff !important;
+}
+.ant-menu-submenu-title a {
+  color: #1b1b1b !important;
+} 
