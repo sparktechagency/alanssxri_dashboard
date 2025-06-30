@@ -158,7 +158,7 @@ const PeopleManagement: React.FC = () => {
                 <div className="">
                     <div className="flex items-center gap-3">
 
-                        <MdOutlineModeEdit size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" />
+                        <Link to={`/people-management/edit-person`}><MdOutlineModeEdit size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" /></Link>
                         <RiDeleteBin6Line size={40} className="text-white bg-red-600 rounded p-2 cursor-pointer" />
 
                     </div>
