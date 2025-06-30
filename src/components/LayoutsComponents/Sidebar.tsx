@@ -11,9 +11,10 @@ import { CiLogout } from 'react-icons/ci';
 const { Sider } = Layout;
 
 import React from 'react';
-import { RiBarChartGroupedLine, RiSettings2Line, RiUserLine, RiUserSettingsLine } from 'react-icons/ri';
-import { IoAnalyticsOutline } from 'react-icons/io5';
-import { MdOutlineCategory, MdOutlineDashboard } from 'react-icons/md';
+import { RiSettings2Line, RiUserLine } from 'react-icons/ri';
+import { MdListAlt, MdOutlineDashboard } from 'react-icons/md';
+import { BsExclamationCircle } from 'react-icons/bs';
+import { VscNote } from 'react-icons/vsc';
 
 interface SidebarProps {
     collapsed: boolean;
@@ -44,36 +45,28 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                             label: <Link className=' text-[16px]' to={`/`}>Dashboard</Link>,
                         },
                         {
-                            key: '4',
+                            key: '2',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
                             icon: <RiUserLine className='w-6 h-6' />,
                             label: <Link className=' text-[16px]' to={`/people-management`}>People Management</Link>,
                         },
                         {
-                            key: '2',
-                            // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
-                            // icon: <img src={income} className='menu-icon' />,
-                            icon: <IoAnalyticsOutline className='w-6 h-6' />,
-                            label: <Link className=' text-[16px]' to={`/income`}>Income</Link>,
-                        },
-                        {
                             key: '3',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
-                            icon: <RiBarChartGroupedLine className='w-6 h-6' />,
-                            label: <Link className=' text-[16px]' to={`/subscriptions`}>Subscriptions</Link>,
+                            icon: <MdListAlt className='w-6 h-6' />,
+                            label: <Link className=' text-[16px]' to={`/sectors`}>Sectors</Link>,
                         },
-
+                        {
+                            key: '4',
+                            // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
+                            icon: <VscNote className='w-6 h-6' />,
+                            label: <Link className=' text-[16px]' to={`/insights`}>Insights</Link>,
+                        },
                         {
                             key: '5',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
-                            icon: <MdOutlineCategory className='w-6 h-6' />,
-                            label: <Link className=' text-[16px]' to={`/manage`}>Manage</Link>,
-                        },
-                        {
-                            key: '6',
-                            // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
-                            icon: <RiUserSettingsLine className='w-6 h-6' />,
-                            label: <Link className=' text-[16px]' to={`/manage-service`}>Manage Services</Link>,
+                            icon: <BsExclamationCircle className='w-6 h-6' />,
+                            label: <Link className=' text-[16px]' to={`/about`}>About</Link>,
                         },
                         {
                             key: '7',

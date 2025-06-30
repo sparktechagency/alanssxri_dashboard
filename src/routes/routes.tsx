@@ -2,7 +2,6 @@ import { createBrowserRouter } from 'react-router-dom';
 import MainLayout from '../layouts/MainLayout';
 import Dashboard from '../pages/dashboard/Dashboard';
 import LogIn from '../pages/auth/Login';
-import Income from '../pages/income/Income';
 import ForgotPassword from '../pages/auth/ForgetPassword';
 import VerificationCode from '../pages/auth/VerificationCode';
 import SetNewPassword from '../pages/auth/SetNewPassword';
@@ -10,12 +9,13 @@ import Profile from '../pages/profile/Profile';
 import Notification from '../pages/notification/Notification';
 import PrivacyPolicy from '../pages/settings/privacy-policy/PrivacyPolicy';
 import TermsAndCondition from '../pages/settings/terms-and-conditon/TermsAndCondition';
-import Subscriptions from '../pages/subscriptions/Subscriptions';
-
-import Manage from '../pages/manage/Manage';
-import ManageService from '../pages/manageService/ManageService';
 import PeopleManagement from '../pages/peopleManagement/PeopleManagement';
 import AddNew from '../pages/peopleManagement/AddNew';
+import EditPerson from '../pages/peopleManagement/EditPerson';
+import ViewDetails from '../pages/peopleManagement/ViewDetails';
+import Sectors from '../pages/Sectors/Sectors';
+import Insights from '../pages/Insights/Insights';
+import About from '../pages/about/About';
 
 
 const router = createBrowserRouter([
@@ -28,10 +28,6 @@ const router = createBrowserRouter([
                 element: <Dashboard></Dashboard>,
             },
             {
-                path: "/income",
-                element: <Income></Income>,
-            },
-            {
                 path: "/people-management",
                 element: <PeopleManagement></PeopleManagement>,
             },
@@ -40,16 +36,24 @@ const router = createBrowserRouter([
                 element: <AddNew></AddNew>,
             },
             {
-                path: "/subscriptions",
-                element: <Subscriptions></Subscriptions>,
+                path: "/people-management/edit-person",
+                element: <EditPerson></EditPerson>
             },
             {
-                path: "/manage",
-                element: <Manage></Manage>,
+                path: "/people-management/view-details",
+                element: <ViewDetails></ViewDetails>
             },
             {
-                path: "/manage-service",
-                element: <ManageService></ManageService>,
+                path: "/sectors",
+                element: <Sectors></Sectors>
+            },
+            {
+                path: "/insights",
+                element: <Insights></Insights>
+            },
+            {
+                path: "/about",
+                element: <About></About>
             },
             {
                 path: "/settings/profile",
