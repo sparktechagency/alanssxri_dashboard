@@ -100,7 +100,7 @@ const MenuBar = ({ editor }: any) => {
                     <Tooltip key={index} title={item.label}>
                         <button
                             onClick={item.action}
-                            className={`flex items-center justify-center p-2 cursor-pointer rounded-md ${item.isActive ? ' bg-[#000000be] text-white' : 'bg-gray-100 hover:bg-gray-200'} transition-all duration-200`}
+                            className={`flex items-center justify-center p-2 cursor-pointer rounded-md ${item.isActive ? ' bg-primaryColor text-white' : 'bg-gray-100 hover:bg-gray-200'} transition-all duration-200`}
                         >
                             <span className="">{item.icon}</span>
                             {/* {item.label} */}

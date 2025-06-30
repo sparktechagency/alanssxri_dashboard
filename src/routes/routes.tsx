@@ -13,6 +13,9 @@ import PeopleManagement from '../pages/peopleManagement/PeopleManagement';
 import AddNew from '../pages/peopleManagement/AddNew';
 import EditPerson from '../pages/peopleManagement/EditPerson';
 import ViewDetails from '../pages/peopleManagement/ViewDetails';
+import Sectors from '../pages/Sectors/Sectors';
+import Insights from '../pages/Insights/Insights';
+import About from '../pages/about/About';
 
 
 const router = createBrowserRouter([
@@ -39,6 +42,18 @@ const router = createBrowserRouter([
             {
                 path: "/people-management/view-details",
                 element: <ViewDetails></ViewDetails>
+            },
+            {
+                path: "/sectors",
+                element: <Sectors></Sectors>
+            },
+            {
+                path: "/insights",
+                element: <Insights></Insights>
+            },
+            {
+                path: "/about",
+                element: <About></About>
             },
             {
                 path: "/settings/profile",
