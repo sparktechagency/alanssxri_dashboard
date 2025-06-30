@@ -17,6 +17,7 @@ import ManageService from '../pages/manageService/ManageService';
 import PeopleManagement from '../pages/peopleManagement/PeopleManagement';
 import AddNew from '../pages/peopleManagement/AddNew';
 import EditPerson from '../pages/peopleManagement/EditPerson';
+import ViewDetails from '../pages/peopleManagement/ViewDetails';
 
 
 const router = createBrowserRouter([
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
             {
                 path: "/people-management/edit-person",
                 element: <EditPerson></EditPerson>
+            },
+            {
+                path: "/people-management/view-details",
+                element: <ViewDetails></ViewDetails>
             },
             {
                 path: "/subscriptions",

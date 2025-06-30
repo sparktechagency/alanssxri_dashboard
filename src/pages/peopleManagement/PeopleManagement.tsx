@@ -147,9 +147,10 @@ const PeopleManagement: React.FC = () => {
             title: "Details",
             render: () => (
                 <div className="">
-                    <MdOutlineRemoveRedEye size={40} className="text-white bg-[#386e93] rounded p-2 cursor-pointer" />
-
-                </div>
+                    <Link to={`/people-management/view-details`}>
+                        <MdOutlineRemoveRedEye size={40} className="text-white bg-[#386e93] rounded p-2 cursor-pointer" />
+                    </Link>
+                </div >
             ),
         },
         {
