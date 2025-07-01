@@ -73,7 +73,7 @@ const Events = () => {
         <div className="bg-white p-5 rounded-lg  shadow-md">
             <div className=" flex justify-between items-center">
                 <h2 className=" text-xl font-semibold">Events</h2>
-                <p className=" text-lg text-primaryColor cursor-pointer">View All</p>
+                <Link to={`/insights/events`}><p className=" text-lg text-primaryColor cursor-pointer">View All</p></Link>
             </div>
             <div>
                 <Table
