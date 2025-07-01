@@ -14,9 +14,14 @@ import AddNew from '../pages/peopleManagement/AddNew';
 import EditPerson from '../pages/peopleManagement/EditPerson';
 import ViewDetails from '../pages/peopleManagement/ViewDetails';
 import Sectors from '../pages/Sectors/Sectors';
-import About from '../pages/about/About';
 import UpdatesPage from '../pages/Insights/Updates/UpdatesPage';
 import EventsPage from '../pages/Insights/Events/EventsPage';
+import Newsletters from '../pages/Insights/Newsletters/Newsletters';
+import AboutUs from '../pages/about/AboutUs/AboutUs';
+import Awards from '../pages/about/Awards/Awards';
+import CSR from '../pages/about/CSR/CSR';
+import FraudAlert from '../pages/settings/fraud-alert/FraudAlert';
+import Disclaimer from '../pages/settings/disclaimer/disclaimer';
 
 
 const router = createBrowserRouter([
@@ -57,8 +62,20 @@ const router = createBrowserRouter([
                 element: <EventsPage></EventsPage>
             },
             {
-                path: "/about",
-                element: <About></About>
+                path: "/insights/newsletters",
+                element: <Newsletters></Newsletters>
+            },
+            {
+                path: "/about/about-us",
+                element: <AboutUs></AboutUs>
+            },
+            {
+                path: "/about/awards",
+                element: <Awards></Awards>
+            },
+            {
+                path: "/about/csr",
+                element: <CSR></CSR>
             },
             {
                 path: "/settings/profile",
@@ -71,6 +88,14 @@ const router = createBrowserRouter([
             {
                 path: "/settings/terms-and-condtion",
                 element: <TermsAndCondition></TermsAndCondition>,
+            },
+            {
+                path: "/settings/fraud-alert",
+                element: <FraudAlert></FraudAlert>,
+            },
+            {
+                path: "/settings/disclaimer",
+                element: <Disclaimer></Disclaimer>,
             },
             {
                 path: "/notification",
