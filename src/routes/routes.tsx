@@ -16,6 +16,7 @@ import ViewDetails from '../pages/peopleManagement/ViewDetails';
 import Sectors from '../pages/Sectors/Sectors';
 import About from '../pages/about/About';
 import UpdatesPage from '../pages/Insights/Updates/UpdatesPage';
+import EventsPage from '../pages/Insights/Events/EventsPage';
 
 
 const router = createBrowserRouter([
@@ -50,6 +51,10 @@ const router = createBrowserRouter([
             {
                 path: "/insights/updates",
                 element: <UpdatesPage></UpdatesPage>
+            },
+            {
+                path: "/insights/events",
+                element: <EventsPage></EventsPage>
             },
             {
                 path: "/about",

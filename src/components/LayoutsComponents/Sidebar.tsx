@@ -66,6 +66,10 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                                     key: "4-1",
                                     label: <Link className={``} to={`/insights/updates`}>Updates</Link>,
                                 },
+                                {
+                                    key: "4-2",
+                                    label: <Link className={``} to={`/insights/events`}>Events</Link>,
+                                },
                             ]
                         },
                         {
