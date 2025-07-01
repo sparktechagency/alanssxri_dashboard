@@ -19,6 +19,7 @@ import EventsPage from '../pages/Insights/Events/EventsPage';
 import Newsletters from '../pages/Insights/Newsletters/Newsletters';
 import AboutUs from '../pages/about/AboutUs/AboutUs';
 import Awards from '../pages/about/Awards/Awards';
+import CSR from '../pages/about/CSR/CSR';
 
 
 const router = createBrowserRouter([
@@ -69,6 +70,10 @@ const router = createBrowserRouter([
             {
                 path: "/about/awards",
                 element: <Awards></Awards>
+            },
+            {
+                path: "/about/csr",
+                element: <CSR></CSR>
             },
             {
                 path: "/settings/profile",

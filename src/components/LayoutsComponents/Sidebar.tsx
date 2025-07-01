@@ -90,6 +90,10 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                                     key: "5-2",
                                     label: <Link className={``} to={`/about/awards`}>Awards</Link>,
                                 },
+                                {
+                                    key: "5-3",
+                                    label: <Link className={``} to={`/about/csr`}>CSR</Link>,
+                                },
                             ]
                         },
                         {

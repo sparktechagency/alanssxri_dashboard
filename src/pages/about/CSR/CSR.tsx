@@ -6,10 +6,11 @@ import tableContentImage from '../../../assets/tableImage.png'
 import { CiSearch } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
-import AddAwardsModal from "../../../components/PagesComponents/About/Awards/AddAwardsModal";
-import EditAwardsModal from "../../../components/PagesComponents/About/Awards/EditAwardsModal";
+import AddCSRModal from "../../../components/PagesComponents/About/CSR/AddCSRModal";
+import EditCSRModal from "../../../components/PagesComponents/About/CSR/EditCSRModal";
 
-const Awards = () => {
+
+const CSR = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     console.log(currentPage);
     const pageSize = 10;
@@ -48,43 +49,43 @@ const Awards = () => {
     const articles: DataType[] = [
         {
             id: "#1233",
-            title: "Middle East M&A Deal of the Year 2015",
-            description: "In 2015, our firm won “Middle East M&A Deal of the Y"
+            title: "Legal Education & Reforms",
+            description: "We are proud to provide pro bono advisory services "
         },
         {
             id: "#1233",
-            title: "Finalist at Middle East Legal Awards 2019",
-            description: "The Ministry of Education and Higher Education align"
+            title: "Pro Bono",
+            description: "In 2015, our firm won “Middle East M&A Deal of the Year"
         },
         {
             id: "#1233",
-            title: "Middle East M&A Deal of the Year 2015",
+            title: "Legal Education & Reforms",
             description: "Al-Ansari & Associates advises international and do..."
         },
         {
             id: "#1233",
-            title: "Finalist at Middle East Legal Awards 2019",
-            description: "In 2015, our firm won “Middle East M&A Deal of the Y"
+            title: "Pro Bono",
+            description: "We are proud to provide pro bono advisory services "
         },
         {
             id: "#1233",
-            title: "Middle East M&A Deal of the Year 2015",
-            description: "The Ministry of Education and Higher Education align"
+            title: "Legal Education & Reforms",
+            description: "In 2015, our firm won “Middle East M&A Deal of the Year"
         },
         {
             id: "#1233",
-            title: "Finalist at Middle East Legal Awards 2019",
-            description: "The Ministry of Education and Higher Education align"
+            title: "Pro Bono",
+            description: "In 2015, our firm won “Middle East M&A Deal of the Year"
         },
         {
             id: "#1233",
-            title: "Middle East M&A Deal of the Year 2015",
-            description: "The Ministry of Education and Higher Education align"
+            title: "Legal Education & Reforms",
+            description: "In 2015, our firm won “Middle East M&A Deal of the Year"
         },
         {
             id: "#1233",
-            title: "Middle East M&A Deal of the Year 2015",
-            description: "The Ministry of Education and Higher Education align"
+            title: "Legal Education & Reforms",
+            description: "In 2015, our firm won “Middle East M&A Deal of the Year"
         },
     ];
     const columns = [
@@ -131,15 +132,15 @@ const Awards = () => {
     return (
         <div className="bg-white p-5 rounded-lg  shadow-md mb-6">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-5">
-                <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">Awards</h2>
+                <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">CSR</h2>
                 <div className=" w-[250px]">
                     <Input prefix={<CiSearch className=" w-6 h-6" />} className="w-[250px]" placeholder="Search" />
                 </div>
             </div>
             <div>
-                <button onClick={showModal} className=" bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2"><FiPlus size={20} /> New Awards</button>
+                <button onClick={showModal} className=" bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2"><FiPlus size={20} /> New CSR</button>
             </div>
-            <AddAwardsModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></AddAwardsModal>
+            <AddCSRModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></AddCSRModal>
             <div>
                 <Table
                     columns={columns}
@@ -149,7 +150,9 @@ const Awards = () => {
                     rowKey="_id"
                 />
             </div>
-            <EditAwardsModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel}></EditAwardsModal>
+
+            <EditCSRModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel}></EditCSRModal>
+
             <div className=" mt-8 flex flex-col md:flex-row justify-between items-center">
                 <div>
                     <p className=" text-lg text-black mb-5 md:mb-0">Showing 1-11 out of  1239</p>
@@ -167,4 +170,4 @@ const Awards = () => {
     );
 };
 
-export default Awards;
+export default CSR;
