@@ -73,7 +73,7 @@ const Updates = () => {
         <div className="bg-white p-5 rounded-lg  shadow-md mb-6">
             <div className=" flex justify-between items-center">
                 <h2 className=" text-xl font-semibold">Updates</h2>
-                <p className=" text-lg text-primaryColor cursor-pointer">View All</p>
+                <Link to={`/insights/updates`}><p className=" text-lg text-primaryColor cursor-pointer">View All</p></Link>
             </div>
             <div>
                 <Table
