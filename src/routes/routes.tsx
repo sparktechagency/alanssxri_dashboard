@@ -17,6 +17,7 @@ import Sectors from '../pages/Sectors/Sectors';
 import About from '../pages/about/About';
 import UpdatesPage from '../pages/Insights/Updates/UpdatesPage';
 import EventsPage from '../pages/Insights/Events/EventsPage';
+import Newsletters from '../pages/Insights/Newsletters/Newsletters';
 
 
 const router = createBrowserRouter([
@@ -55,6 +56,10 @@ const router = createBrowserRouter([
             {
                 path: "/insights/events",
                 element: <EventsPage></EventsPage>
+            },
+            {
+                path: "/insights/newsletters",
+                element: <Newsletters></Newsletters>
             },
             {
                 path: "/about",

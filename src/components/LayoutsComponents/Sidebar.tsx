@@ -70,6 +70,10 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                                     key: "4-2",
                                     label: <Link className={``} to={`/insights/events`}>Events</Link>,
                                 },
+                                {
+                                    key: "4-3",
+                                    label: <Link className={``} to={`/insights/newsletters`}>Newsletters</Link>,
+                                },
                             ]
                         },
                         {
