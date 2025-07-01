@@ -2,11 +2,12 @@
 import { Input, Pagination, Table } from "antd";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { Link } from "react-router-dom";
 import tableContentImage from '../../assets/tableImage.png'
 import { CiSearch } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
+import AddSectorsModal from "../../components/PagesComponents/Sectors/AddSectorsModal";
+import EditSectorsModal from "../../components/PagesComponents/Sectors/EditSectorsModal";
 
 
 const Sectors = () => {
@@ -15,6 +16,28 @@ const Sectors = () => {
     const pageSize = 10;
     const handlePageChange = (page: number) => {
         setCurrentPage(page);
+    };
+
+    const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
+    const [isModalEditOpen, setIsModaEditlOpen] = useState<boolean>(false);
+    const showEditModal = () => {
+        setIsModaEditlOpen(true);
+    };
+    const handleEditOk = () => {
+        setIsModaEditlOpen(false);
+    };
+    const handleEditCancel = () => {
+        setIsModaEditlOpen(false);
     };
 
     interface DataType {
@@ -95,7 +118,7 @@ const Sectors = () => {
                     <div className="flex items-center gap-3">
 
                         {/* <Link to={`/people-management/edit-person`}> */}
-                            <MdOutlineModeEdit size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" />
+                        <MdOutlineModeEdit onClick={showEditModal} size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" />
                         {/* </Link> */}
                         <RiDeleteBin6Line size={40} className="text-white bg-red-600 rounded p-2 cursor-pointer" />
 
@@ -114,8 +137,9 @@ const Sectors = () => {
                     <Input prefix={<CiSearch className=" w-6 h-6" />} className="w-[250px]" placeholder="Search" />
                 </div>
             </div>
+            <AddSectorsModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></AddSectorsModal>
             <div>
-                <Link to={``}><button className=" bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2"><FiPlus size={20} /> Add New</button></Link>
+                <button onClick={showModal} className=" bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2"><FiPlus size={20} /> Add New</button>
             </div>
             <div>
                 <Table
@@ -126,6 +150,7 @@ const Sectors = () => {
                     rowKey="_id"
                 />
             </div>
+            <EditSectorsModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel}></EditSectorsModal>
             <div className=" mt-8 flex flex-col md:flex-row justify-between items-center">
                 <div>
                     <p className=" text-lg text-black mb-5 md:mb-0">Showing 1-11 out of  1239</p>
