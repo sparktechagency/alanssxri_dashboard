@@ -57,5 +57,11 @@ export const mainTheme = {
             "headerBg": "rgba(255,255,255,0)",
             "headerSplitColor": "rgba(255,255,255,0)"
         },
+        "Button": {
+            "defaultHoverBorderColor": "rgb(175,139,24)",
+            "defaultHoverColor": "rgb(175,139,24)",
+            "defaultActiveBorderColor": "rgb(175,139,24)",
+            "defaultActiveColor": "rgb(175,139,24)"
+        }
     },
 };

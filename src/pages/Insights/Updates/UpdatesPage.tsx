@@ -2,15 +2,16 @@
 import { Input, Pagination, Table } from "antd";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import tableContentImage from '../../assets/tableImage.png'
+import tableContentImage from '../../../assets/tableImage.png'
 import { CiSearch } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
-import AddSectorsModal from "../../components/PagesComponents/Sectors/AddSectorsModal";
-import EditSectorsModal from "../../components/PagesComponents/Sectors/EditSectorsModal";
+import NewUpdatesModal from "../../../components/PagesComponents/Insights/Updates/NewUpdatesModal";
+import EditUpdateModal from "../../../components/PagesComponents/Insights/Updates/EditUpdateModal";
 
 
-const Sectors = () => {
+
+const UpdatesPage = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     console.log(currentPage);
     const pageSize = 10;
@@ -49,42 +50,42 @@ const Sectors = () => {
     const articles: DataType[] = [
         {
             id: "#1233",
-            title: "Construction & Infrastructure",
+            title: "Qatar and the Brave New World of Digital Assets",
             description: "With experience that spans virtually every sector o..."
         },
         {
             id: "#1233",
-            title: "Education",
+            title: "Termination of Fixed Term Contracts on Notice",
             description: "From structuring compensation and incentive pack..."
         },
         {
             id: "#1233",
-            title: "Employment",
+            title: "Qatar and the Brave New World of Digital Assets",
             description: "Al-Ansari & Associates advises international and do..."
         },
         {
             id: "#1233",
-            title: "Energy & Natural Resources",
+            title: "Termination of Fixed Term Contracts on Notice",
             description: "International and domestic lenders trust Al-Ansari..."
         },
         {
             id: "#1233",
-            title: "Healthcare",
+            title: "Qatar and the Brave New World of Digital Assets",
             description: "We have advised and provided counsel to major ed..."
         },
         {
             id: "#1233",
-            title: "Hospitality & Leisure",
+            title: "Qatar and the Brave New World of Digital Assets",
             description: "From structuring compensation and incentive pack..."
         },
         {
             id: "#1233",
-            title: "Intellectual Property & Copyright",
+            title: "Termination of Fixed Term Contracts on Notice",
             description: "International and domestic lenders trust Al-Ansari..."
         },
         {
             id: "#1233",
-            title: "Real Estate & Property",
+            title: "Qatar and the Brave New World of Digital Assets",
             description: "Al-Ansari & Associates advises international and do..."
         },
     ];
@@ -132,15 +133,15 @@ const Sectors = () => {
     return (
         <div className="bg-white p-5 rounded-lg  shadow-md mb-6">
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-5">
-                <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">Sectors</h2>
+                <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">Updates</h2>
                 <div className=" w-[250px]">
                     <Input prefix={<CiSearch className=" w-6 h-6" />} className="w-[250px]" placeholder="Search" />
                 </div>
             </div>
-            <AddSectorsModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></AddSectorsModal>
             <div>
-                <button onClick={showModal} className=" bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2"><FiPlus size={20} /> Add New</button>
+                <button onClick={showModal} className=" bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2"><FiPlus size={20} /> New Update</button>
             </div>
+            <NewUpdatesModal isModalOpen={isModalOpen} handleOk={handleOk} handleCancel={handleCancel}></NewUpdatesModal>
             <div>
                 <Table
                     columns={columns}
@@ -150,7 +151,7 @@ const Sectors = () => {
                     rowKey="_id"
                 />
             </div>
-            <EditSectorsModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel}></EditSectorsModal>
+            <EditUpdateModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel}></EditUpdateModal>
             <div className=" mt-8 flex flex-col md:flex-row justify-between items-center">
                 <div>
                     <p className=" text-lg text-black mb-5 md:mb-0">Showing 1-11 out of  1239</p>
@@ -168,4 +169,4 @@ const Sectors = () => {
     );
 };
 
-export default Sectors;
+export default UpdatesPage;
