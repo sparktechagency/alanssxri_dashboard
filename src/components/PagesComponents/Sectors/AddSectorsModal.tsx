@@ -78,7 +78,7 @@ const AddSectorsModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps)
                         type="submit"
                         className="rounded-lg font-semibold cursor-pointer bg-primaryColor text-white px-3 py-2"
                     >
-                        Add Income
+                        Add
                     </button>
                 </Form.Item>
             </Form>

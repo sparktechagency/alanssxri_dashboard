@@ -14,8 +14,8 @@ import AddNew from '../pages/peopleManagement/AddNew';
 import EditPerson from '../pages/peopleManagement/EditPerson';
 import ViewDetails from '../pages/peopleManagement/ViewDetails';
 import Sectors from '../pages/Sectors/Sectors';
-import Insights from '../pages/Insights/Insights';
 import About from '../pages/about/About';
+import UpdatesPage from '../pages/Insights/Updates/UpdatesPage';
 
 
 const router = createBrowserRouter([
@@ -48,8 +48,8 @@ const router = createBrowserRouter([
                 element: <Sectors></Sectors>
             },
             {
-                path: "/insights",
-                element: <Insights></Insights>
+                path: "/insights/updates",
+                element: <UpdatesPage></UpdatesPage>
             },
             {
                 path: "/about",

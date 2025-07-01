@@ -11,7 +11,7 @@ type AddModalProps = {
     handleCancel: () => void;
 };
 
-const EditSectorsModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps) => {
+const EditUpdateModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps) => {
 
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<any[]>([]);
@@ -30,7 +30,7 @@ const EditSectorsModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps
     };
 
     return (
-        <Modal centered footer={false} title="Edit" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <Modal centered footer={false} title="Edit Update" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <Form
                 form={form}
                 initialValues={undefined}
@@ -78,7 +78,7 @@ const EditSectorsModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps
                         type="submit"
                         className="rounded-lg font-semibold cursor-pointer bg-primaryColor text-white px-3 py-2"
                     >
-                        Update
+                        Save Changes
                     </button>
                 </Form.Item>
             </Form>
@@ -87,4 +87,4 @@ const EditSectorsModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps
     );
 };
 
-export default EditSectorsModal;
+export default EditUpdateModal;
