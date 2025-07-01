@@ -20,6 +20,8 @@ import Newsletters from '../pages/Insights/Newsletters/Newsletters';
 import AboutUs from '../pages/about/AboutUs/AboutUs';
 import Awards from '../pages/about/Awards/Awards';
 import CSR from '../pages/about/CSR/CSR';
+import FraudAlert from '../pages/settings/fraud-alert/FraudAlert';
+import Disclaimer from '../pages/settings/disclaimer/disclaimer';
 
 
 const router = createBrowserRouter([
@@ -86,6 +88,14 @@ const router = createBrowserRouter([
             {
                 path: "/settings/terms-and-condtion",
                 element: <TermsAndCondition></TermsAndCondition>,
+            },
+            {
+                path: "/settings/fraud-alert",
+                element: <FraudAlert></FraudAlert>,
+            },
+            {
+                path: "/settings/disclaimer",
+                element: <Disclaimer></Disclaimer>,
             },
             {
                 path: "/notification",

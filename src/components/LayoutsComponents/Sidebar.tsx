@@ -115,6 +115,14 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                                     key: "7-4",
                                     label: <Link className={``} to={`/settings/terms-and-condtion`}>Terms And Condition</Link>,
                                 },
+                                {
+                                    key: "7-5",
+                                    label: <Link className={``} to={`/settings/fraud-alert`}>Fraud Alert</Link>,
+                                },
+                                {
+                                    key: "7-6",
+                                    label: <Link className={``} to={`/settings/disclaimer`}>Disclaimer</Link>,
+                                },
                             ]
                         },
                     ]}
