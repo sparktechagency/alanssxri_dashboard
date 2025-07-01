@@ -18,9 +18,11 @@ export const mainTheme = {
             itemBorderRadius: 5,
             itemMarginInline: 15,
             itemMarginBlock: 15,
-            itemHeight: 45,
+            itemHeight: 40,
             subMenuItemHeight: 10,
             "motionDurationSlow": "0.0s",
+            "groupTitleFontSize": 12,
+            "fontSize": 12
         },
         "InputNumber": {
             "activeBorderColor": "rgb(222,222,222)",

@@ -42,25 +42,25 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
                             // icon: <img src={dashboard} className='menu-icon text-primaryColor' />,
                             icon: <MdOutlineDashboard className='w-6 h-6' />,
-                            label: <Link className=' text-[16px]' to={`/`}>Dashboard</Link>,
+                            label: <Link className=' text-[14px]' to={`/`}>Dashboard</Link>,
                         },
                         {
                             key: '2',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
                             icon: <RiUserLine className='w-6 h-6' />,
-                            label: <Link className=' text-[16px]' to={`/people-management`}>People Management</Link>,
+                            label: <Link className=' text-[14px]' to={`/people-management`}>People Management</Link>,
                         },
                         {
                             key: '3',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
                             icon: <MdListAlt className='w-6 h-6' />,
-                            label: <Link className=' text-[16px]' to={`/sectors`}>Sectors</Link>,
+                            label: <Link className=' text-[14px]' to={`/sectors`}>Sectors</Link>,
                         },
                         {
                             key: '4',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
                             icon: <VscNote className='w-6 h-6' />,
-                            label: <p className=' text-[16px]'>Insights</p>,
+                            label: <p className=' text-[14px]'>Insights</p>,
                             children: [
                                 {
                                     key: "4-1",
@@ -80,7 +80,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                             key: '5',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
                             icon: <BsExclamationCircle className='w-6 h-6' />,
-                            label: <p className=' text-[16px]'>About</p>,
+                            label: <p className=' text-[14px]'>About</p>,
                             children: [
                                 {
                                     key: "5-1",
@@ -100,7 +100,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                             key: '7',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
                             icon: <RiSettings2Line className='w-6 h-6' />,
-                            label: <p className=' text-[16px]'>Settings</p>,
+                            label: <p className=' text-[14px]'>Settings</p>,
                             children: [
                                 {
                                     key: "7-1",
