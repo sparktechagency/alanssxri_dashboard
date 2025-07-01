@@ -14,10 +14,11 @@ import AddNew from '../pages/peopleManagement/AddNew';
 import EditPerson from '../pages/peopleManagement/EditPerson';
 import ViewDetails from '../pages/peopleManagement/ViewDetails';
 import Sectors from '../pages/Sectors/Sectors';
-import About from '../pages/about/About';
 import UpdatesPage from '../pages/Insights/Updates/UpdatesPage';
 import EventsPage from '../pages/Insights/Events/EventsPage';
 import Newsletters from '../pages/Insights/Newsletters/Newsletters';
+import AboutUs from '../pages/about/AboutUs/AboutUs';
+import Awards from '../pages/about/Awards/Awards';
 
 
 const router = createBrowserRouter([
@@ -62,8 +63,12 @@ const router = createBrowserRouter([
                 element: <Newsletters></Newsletters>
             },
             {
-                path: "/about",
-                element: <About></About>
+                path: "/about/about-us",
+                element: <AboutUs></AboutUs>
+            },
+            {
+                path: "/about/awards",
+                element: <Awards></Awards>
             },
             {
                 path: "/settings/profile",

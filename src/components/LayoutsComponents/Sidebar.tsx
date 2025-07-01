@@ -80,7 +80,17 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
                             key: '5',
                             // icon: <img src={location.pathname === '/' ? dashboardActive : dashboard} className='menu-icon' />,
                             icon: <BsExclamationCircle className='w-6 h-6' />,
-                            label: <Link className=' text-[16px]' to={`/about`}>About</Link>,
+                            label: <p className=' text-[16px]'>About</p>,
+                            children: [
+                                {
+                                    key: "5-1",
+                                    label: <Link className={``} to={`/about/about-us`}>About Us</Link>,
+                                },
+                                {
+                                    key: "5-2",
+                                    label: <Link className={``} to={`/about/awards`}>Awards</Link>,
+                                },
+                            ]
                         },
                         {
                             key: '7',
