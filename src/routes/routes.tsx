@@ -22,12 +22,13 @@ import Awards from '../pages/about/Awards/Awards';
 import CSR from '../pages/about/CSR/CSR';
 import FraudAlert from '../pages/settings/fraud-alert/FraudAlert';
 import Disclaimer from '../pages/settings/disclaimer/disclaimer';
+import PrivateRoute from './PrivateRoute';
 
 
 const router = createBrowserRouter([
     {
         path: '/',
-        element: <MainLayout />,
+        element: <PrivateRoute><MainLayout /></PrivateRoute>,
         children: [
             {
                 path: "/",
