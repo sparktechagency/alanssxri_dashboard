@@ -6,7 +6,7 @@ import { message } from 'antd';
 import { setUser } from '../features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'https://api.medroyale.net/v1',
+    baseUrl: 'http://10.0.60.118:5006',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as { logInUser: { token?: string } }).logInUser.token;
         if (token) {
