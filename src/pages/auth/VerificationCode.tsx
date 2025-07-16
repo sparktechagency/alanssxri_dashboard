@@ -1,16 +1,32 @@
 import { useState } from "react";
 import OtpInput from "react-otp-input";
-import { Link, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { useVerifyEmailMutation } from "../../redux/features/auth/authApi";
+import { message } from "antd";
 
 const VerificationCode: React.FC = () => {
     const [otp, setOtp] = useState<string>("");
     const [searchParams] = useSearchParams();
     const email: string | null = searchParams.get("email");
     console.log(email);
+    const navigate = useNavigate();
 
-    // const onSent = () => {
-    //   // handle OTP submission
-    // };
+    const [verifyEmail, { isLoading }] = useVerifyEmailMutation();
+
+    const onSent = () => {
+        verifyEmail({
+            email: email,
+            code: otp
+        }).unwrap()
+            .then(() => {
+                message.success(`Verify OTP Successfuly!`)
+                navigate(`/auth/set-new-password?email=${email}`)
+            })
+            .catch((error) => {
+                message.error(error?.data?.error)
+
+            })
+    };
 
     return (
         <div className="h-screen bg-barColor">
@@ -36,7 +52,7 @@ const VerificationCode: React.FC = () => {
                                     <OtpInput
                                         value={otp}
                                         onChange={(value: string) => setOtp(value)}
-                                        numInputs={5}
+                                        numInputs={6}
                                         renderSeparator={<span className="w-4" />}
                                         renderInput={(props) => (
                                             <input
@@ -50,16 +66,16 @@ const VerificationCode: React.FC = () => {
                             </div>
 
                             <div className=" w-full">
-                                <Link to="/auth/set-new-password">
-                                    <button
-                                        type="button"
-                                        // onClick={onSent}
-                                        // disabled={isLoading}
-                                        className="bg-primary w-full bg-primaryColor cursor-pointer  mt-10 mb-6 text-white px-18 rounded py-[6px] text-lg"
-                                    >
-                                        Verify Code
-                                    </button>
-                                </Link>
+                                {/* <Link to="/auth/set-new-password"> */}
+                                <button
+                                    type="submit"
+                                    onClick={onSent}
+                                    disabled={isLoading}
+                                    className="bg-primary w-full bg-primaryColor cursor-pointer  mt-10 mb-6 text-white px-18 rounded py-[6px] text-lg"
+                                >
+                                    {isLoading ? "Loading..." : "Verify Code"}
+                                </button>
+                                {/* </Link> */}
                             </div>
                             <p className="text-center text-gray-600">
                                 You have not received the email?{" "}
