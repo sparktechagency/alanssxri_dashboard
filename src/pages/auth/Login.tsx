@@ -1,6 +1,9 @@
-import { Form, Input } from "antd";
-import { Link } from "react-router-dom";
+import { Form, Input, message } from "antd";
+import { Link, useNavigate } from "react-router-dom";
 import { FC } from "react";
+import { useDispatch } from "react-redux";
+import { useLogInMutation } from "../../redux/features/auth/authApi";
+import { setUser } from "../../redux/features/auth/authSlice";
 
 // Define the type for form values
 interface LoginFormValues {
@@ -10,9 +13,33 @@ interface LoginFormValues {
 
 const LogIn: FC = () => {
 
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    const [logIn, { isLoading }] = useLogInMutation();
     const onFinish = (values: LoginFormValues) => {
-        console.log(values);
+        const data = {
+            email: values?.email,
+            password: values?.password,
+        };
+        logIn(data).unwrap()
+            .then((data) => {
+                const adminData = data?.data?.user
+                const accessToken = data?.data?.accessToken
+                const refreshToken = data?.data?.refreshToken
+
+                if (data?.data?.user?.authId?.role === "ADMIN") {
+                    dispatch(setUser({ user: adminData, accessToken: accessToken, refreshToken }))
+                    navigate(`/`)
+                    message.success("LogIn Successfully!!!")
+                }
+            })
+            .catch((error) => {
+                message.error(error?.data?.message)
+                console.log(error);
+            })
     };
+
 
     return (
 
@@ -65,15 +92,16 @@ const LogIn: FC = () => {
                                     </Link>
                                 </div>
                                 <div className=" w-full">
-                                    <Link to="/">
-                                        <button
-                                            type="submit"
-                                            className="bg-primary w-full bg-primaryColor cursor-pointer  mt-10 mb-16 text-white px-18 rounded py-[6px] text-lg"
-                                        >
-                                            Sign In
-                                        </button>
+                                    {/* <Link to="/"> */}
+                                    <button
+                                        type="submit"
+                                        disabled={isLoading}
+                                        className="bg-primary w-full bg-primaryColor cursor-pointer  mt-10 mb-16 text-white px-18 rounded py-[6px] text-lg"
+                                    >
+                                        {isLoading ? "Loading..." : "Sign In"}
+                                    </button>
 
-                                    </Link>
+                                    {/* </Link> */}
                                 </div>
 
                             </Form>
