@@ -22,15 +22,15 @@ const authApi = baseApi.injectEndpoints({
 
         verifyEmail: builder.mutation({
             query: (data) => ({
-                url: '/admin/verify-otp',
+                url: '/auth/verify-otp',
                 method: 'POST',
                 body: data,
             }),
         }),
 
         resetAdminPassword: builder.mutation({
-            query: (data) => ({
-                url: '/admin/reset-password',
+            query: ({ email, data }) => ({
+                url: `/auth/reset-password?email=${email}`,
                 method: 'POST',
                 body: data,
             }),
