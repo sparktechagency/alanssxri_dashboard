@@ -8,7 +8,6 @@ const PrivateRoute = ({ children }: any) => {
 
     const user = useSelector((state: any) => state.logInUser)
     const { pathname } = useLocation();
-    console.log();
 
     if (!user?.user && !user?.accessToken) {
         return <Navigate to="/auth/login" state={{ path: pathname }}></Navigate>;

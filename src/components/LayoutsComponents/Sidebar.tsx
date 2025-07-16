@@ -8,6 +8,8 @@ import { RiSettings2Line, RiUserLine } from 'react-icons/ri';
 import { MdListAlt, MdOutlineDashboard } from 'react-icons/md';
 import { BsExclamationCircle } from 'react-icons/bs';
 import { VscNote } from 'react-icons/vsc';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../redux/features/auth/authSlice';
 
 const { Sider } = Layout;
 
@@ -107,6 +109,14 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
     }
   };
 
+  const dispatch = useDispatch();
+
+  const handleLogOut = () => {
+    dispatch(logout())
+    window.location.reload();
+  }
+
+
   return (
     <div className='fixed top-0 left-0 bottom-0 bg-[#fefefe]'>
       <Sider className='h-[100vh] w-[300px] bg-[#fefefe]' width={250} collapsedWidth={80} trigger={null} collapsible collapsed={collapsed}>
@@ -125,12 +135,12 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
       </Sider>
 
       <div className="flex justify-center items-center relative">
-        <Link to="/auth/login" className="w-full flex justify-center">
-          <div className="absolute bottom-12 w-[80%] py-2 bg-barColor hover:bg-[#f5edd9] shadow-md rounded-lg flex justify-center items-center gap-3 cursor-pointer transition-all duration-200">
+        {/* <Link to="/auth/login" className="w-full flex justify-center"> */}
+          <div onClick={handleLogOut} className="absolute bottom-12 w-[80%] py-2 bg-barColor hover:bg-[#f5edd9] shadow-md rounded-lg flex justify-center items-center gap-3 cursor-pointer transition-all duration-200">
             <CiLogout className="w-6 h-6 text-[#222]" />
             <p className="text-base font-medium text-[#222]">Log Out</p>
           </div>
-        </Link>
+        {/* </Link> */}
       </div>
     </div>
   );
