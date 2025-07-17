@@ -7,7 +7,6 @@ import { useGetPrivacyPolicyQuery, useUpdatePrivacyPolicyMutation } from '../../
 import { useEffect, useState } from 'react';
 import { notification } from 'antd';
 
-// define your extension array
 const extensions = [
     StarterKit.configure({
         bulletList: {
@@ -24,69 +23,73 @@ const extensions = [
     TextAlign.configure({
         types: ['heading', 'paragraph'],
     })
-
-]
-
+];
 
 const PrivacyPolicy = () => {
-    const { data } = useGetPrivacyPolicyQuery(undefined);
+    const { data, refetch } = useGetPrivacyPolicyQuery(undefined);
     const [api, contextHolder] = notification.useNotification();
     const [updatePrivacyPolicy, { isLoading }] = useUpdatePrivacyPolicyMutation();
     const [writtenContent, setWrittenContent] = useState<string>();
 
-    useEffect(() => {
-        setWrittenContent(data?.data?.description)
-    }, [data?.data?.description])
+    const content = data?.data?.description;
 
-    const content = data?.data?.description
     const editor = useEditor({
         extensions,
-        content,
+        content: content || '',
         editorProps: {
             attributes: {
                 class: 'min-h-[400px] rounded-md bg-slate-50 py-2 px-3',
             }
         },
         onUpdate: ({ editor }) => {
-            // const json = editor.getJSON()
-            // console.log(editor.getHTML())
-            setWrittenContent(editor.getHTML())
+            setWrittenContent(editor.getHTML());
         }
-    })
+    }, [content]);
+
+    useEffect(() => {
+        if (content && editor && !editor.isDestroyed) {
+            editor.commands.setContent(content);
+        }
+    }, [content, editor]);
 
     const saveChanges = () => {
         updatePrivacyPolicy({ description: writtenContent }).unwrap()
             .then(() => {
-                // console.log(data);
                 api.success({
                     message: 'Updated Successfully!',
                     description: 'Privacy Policy',
                     placement: 'topRight',
                 });
+                refetch();
             })
             .catch((error) => {
-                api.success({
-                    message: error?.data?.message,
+                api.error({
+                    message: error?.data?.message || 'Update failed',
                     description: 'Something went wrong!',
                     placement: 'topRight',
                 });
-            })
+            });
+    };
 
-    }
     return (
         <div className='min-h-[100vh]'>
             {contextHolder}
-            <div className=' flex justify-between items-center'>
+            <div className='flex justify-between items-center'>
                 <h1 className="text-2xl mb-3">Privacy Policy</h1>
-                <MenuBar editor={editor} />
+                {editor && <MenuBar editor={editor} />}
             </div>
 
-            <EditorContent editor={editor} />
+            {!editor ? (
+                <p className="text-gray-500">Loading editor...</p>
+            ) : (
+                <EditorContent editor={editor} />
+            )}
+
             <button
                 type="submit"
                 onClick={saveChanges}
-                disabled={isLoading}
-                className="bg-primary bg-primaryColor cursor-pointer  mt-4 mb-16 text-white px-18 rounded-lg py-[6px] text-lg"
+                disabled={isLoading || !editor}
+                className="bg-primary bg-primaryColor cursor-pointer mt-4 mb-16 text-white px-18 rounded-lg py-[6px] text-lg"
             >
                 {isLoading ? "Loading..." : "Save & Changes"}
             </button>
