@@ -44,7 +44,15 @@ const authApi = baseApi.injectEndpoints({
             }),
         }),
 
+        editAdminProfile: builder.mutation({
+            query: (data) => ({
+                url: '/auth/edit-profile',
+                method: 'PATCH',
+                body: data,
+            }),
+        }),
+
     }),
 });
 
-export const { useLogInMutation, useForgetPasswordMutation, useVerifyEmailMutation, useResetAdminPasswordMutation, useChangeAdminPasswordMutation } = authApi;
+export const { useLogInMutation, useForgetPasswordMutation, useVerifyEmailMutation, useResetAdminPasswordMutation, useChangeAdminPasswordMutation, useEditAdminProfileMutation } = authApi;

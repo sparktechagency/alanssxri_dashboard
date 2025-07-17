@@ -1,38 +1,63 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEvent, useState } from "react";
 import { useSelector } from "react-redux";
+import { useEditAdminProfileMutation } from "../../../redux/features/auth/authApi";
+import { notification } from "antd";
 
 interface FormData {
   name: string;
   email: string;
-  address: string;
+  phone_number: string;
   // contact: string;
 }
 
 const EditProfile: React.FC = () => {
   const user = useSelector((state: any) => state.logInUser)
-  const [formData, setFormData] = useState<FormData>({
+  const [api, contextHolder] = notification.useNotification();
+  const [editAdminProfile] = useEditAdminProfileMutation();
+
+  const [formRawData, setFormRawData] = useState<FormData>({
     name: user?.user?.name,
     email: user?.user?.email,
-    address: user?.user?.address,
+    phone_number: user?.user?.phone_number,
     // contact: ""
   });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFormRawData({
+      ...formRawData,
       [name]: value,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form Data Submitted:", formData);
+    const formData = new FormData();
+    formData.append('name', formRawData.name)
+    formData.append('email', formRawData.email)
+    formData.append('phone_number', formRawData.phone_number)
+    editAdminProfile(formData).unwrap()
+      .then((data) => {
+        console.log(data);
+        api.success({
+          message: 'Please logIn again to see updated data',
+          description: 'Updated Successfully!',
+          placement: 'topRight',
+        });
+      })
+      .catch((error) => {
+        api.error({
+          message: error?.data?.message,
+          description: 'Password Changed Failed',
+          placement: 'topRight',
+        });
+      })
   };
 
   return (
     <div className="bg-white px-20 w-[715px] py-5 rounded-md">
+      {contextHolder}
       <p className="text-primary text-center font-bold text-xl mb-5">
         Edit Your Profile
       </p>
@@ -44,7 +69,7 @@ const EditProfile: React.FC = () => {
           <input
             type="text"
             name="name"
-            value={formData.name}
+            value={formRawData.name}
             onChange={handleChange}
             className="w-full px-2 py-3 border-2 border-[#F2F2F2] rounded-md focus:outline-none text-md"
             placeholder="Enter first name"
@@ -58,7 +83,7 @@ const EditProfile: React.FC = () => {
           <input
             type="email"
             name="email"
-            value={formData.email}
+            value={formRawData.email}
             onChange={handleChange}
             className="w-full px-2 py-3 border-2 border-[#F2F2F2] rounded-md focus:outline-none text-md"
             placeholder="Enter Email"
@@ -67,33 +92,18 @@ const EditProfile: React.FC = () => {
         </div>
         <div>
           <label className="block text-md font-medium text-[#575757] mb-2">
-            Address
+            Phone Number
           </label>
           <input
-            type="address"
-            name="address"
-            value={formData.address}
+            type="phone_number"
+            name="phone_number"
+            value={formRawData.phone_number}
             onChange={handleChange}
             className="w-full px-2 py-3 border-2 border-[#F2F2F2] rounded-md focus:outline-none text-md"
             placeholder="Enter Address"
             required
           />
         </div>
-        {/* Uncomment and add logic for contact if needed */}
-        {/* <div>
-          <label className="block text-md font-medium text-[#575757] mb-2">
-            Contact No
-          </label>
-          <input
-            type="text"
-            name="contact"
-            value={formData.contact}
-            onChange={handleChange}
-            className="w-full px-2 py-3 border-2 border-[#F2F2F2] rounded-md focus:outline-none text-md"
-            placeholder="Enter Contact Number"
-            required
-          />
-        </div> */}
 
         <div className="text-center my-5">
           <button
