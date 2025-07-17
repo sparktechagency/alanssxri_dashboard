@@ -4,12 +4,16 @@ import { FaCamera } from "react-icons/fa";
 import { Avatar, Upload } from "antd";
 import EditProfile from "../../components/PagesComponents/Profile/EditProfile";
 import ChangePassword from "../../components/PagesComponents/Profile/ChnagePassword";
+import { useSelector } from "react-redux";
 
 type Tab = "editProfile" | "changePassword";
 
 const Profile: React.FC = () => {
+
+    const user = useSelector((state: any) => state.logInUser)
+
     // const [profilePic, setProfilePic] = useState<File | null>(null);
-    const [profilePic, setProfilePic] = useState<File | null>(null);
+    const [profilePic, setProfilePic] = useState<File | null>(user?.user?.profile_image);
     console.log('state', profilePic);
     const [activeTab, setActiveTab] = useState<Tab>("editProfile");
 
@@ -42,7 +46,7 @@ const Profile: React.FC = () => {
                             </Upload>
                         </div>
                         <div>
-                            <p className="text-xl md:text-2xl text-black font-bold capitalize">Al Ansari</p>
+                            <p className="text-xl md:text-2xl text-black font-bold capitalize">{user?.user?.name}</p>
                             <p className="text-sm text-black font-semibold">Super Admin</p>
                             {profilePic && (
                                 <button

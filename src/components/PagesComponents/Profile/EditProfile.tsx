@@ -1,17 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ChangeEvent, useState } from "react";
+import { useSelector } from "react-redux";
 
 interface FormData {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
+  address: string;
   // contact: string;
 }
 
 const EditProfile: React.FC = () => {
+  const user = useSelector((state: any) => state.logInUser)
   const [formData, setFormData] = useState<FormData>({
-    firstName: "",
-    lastName: "",
-    email: "",
+    name: user?.user?.name,
+    email: user?.user?.email,
+    address: user?.user?.address,
     // contact: ""
   });
 
@@ -40,25 +43,11 @@ const EditProfile: React.FC = () => {
           </label>
           <input
             type="text"
-            name="firstName"
-            value={formData.firstName}
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             className="w-full px-2 py-3 border-2 border-[#F2F2F2] rounded-md focus:outline-none text-md"
             placeholder="Enter first name"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-md font-medium text-[#575757] mb-2">
-            Last Name
-          </label>
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            className="w-full px-2 py-3 border-2 border-[#F2F2F2] rounded-md focus:outline-none text-md"
-            placeholder="Enter last name"
             required
           />
         </div>
@@ -73,6 +62,20 @@ const EditProfile: React.FC = () => {
             onChange={handleChange}
             className="w-full px-2 py-3 border-2 border-[#F2F2F2] rounded-md focus:outline-none text-md"
             placeholder="Enter Email"
+            required
+          />
+        </div>
+        <div>
+          <label className="block text-md font-medium text-[#575757] mb-2">
+            Address
+          </label>
+          <input
+            type="address"
+            name="address"
+            value={formData.address}
+            onChange={handleChange}
+            className="w-full px-2 py-3 border-2 border-[#F2F2F2] rounded-md focus:outline-none text-md"
+            placeholder="Enter Address"
             required
           />
         </div>
