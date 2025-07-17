@@ -14,7 +14,7 @@ interface FormData {
 const EditProfile: React.FC = () => {
   const user = useSelector((state: any) => state.logInUser)
   const [api, contextHolder] = notification.useNotification();
-  const [editAdminProfile] = useEditAdminProfileMutation();
+  const [editAdminProfile, { isLoading }] = useEditAdminProfileMutation();
 
   const [formRawData, setFormRawData] = useState<FormData>({
     name: user?.user?.name,
@@ -108,9 +108,10 @@ const EditProfile: React.FC = () => {
         <div className="text-center my-5">
           <button
             type="submit"
+            disabled={isLoading}
             className="bg-primary bg-primaryColor cursor-pointer  mt-4 mb-16 text-white px-18 rounded-lg py-[6px] text-lg"
           >
-            Save & Changes
+            {isLoading ? "Loading..." : "Save & Changes"}
           </button>
         </div>
       </form>

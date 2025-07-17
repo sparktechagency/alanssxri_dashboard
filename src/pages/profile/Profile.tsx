@@ -1,32 +1,63 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import { FaCamera } from "react-icons/fa";
-import { Avatar, Upload } from "antd";
+import { Avatar, notification, Upload } from "antd";
 import EditProfile from "../../components/PagesComponents/Profile/EditProfile";
 import ChangePassword from "../../components/PagesComponents/Profile/ChnagePassword";
 import { useSelector } from "react-redux";
+import { useEditAdminProfileMutation } from "../../redux/features/auth/authApi";
 
 type Tab = "editProfile" | "changePassword";
 
 const Profile: React.FC = () => {
-
+    const [api, contextHolder] = notification.useNotification();
     const user = useSelector((state: any) => state.logInUser)
+    const [editAdminProfile, { isLoading }] = useEditAdminProfileMutation();
 
     // const [profilePic, setProfilePic] = useState<File | null>(null);
-    const [profilePic, setProfilePic] = useState<File | null>(user?.user?.profile_image);
-    console.log('state', profilePic);
+    const [profilePic, setProfilePic] = useState<File | null>(null);
     const [activeTab, setActiveTab] = useState<Tab>("editProfile");
 
-    const handleSubmit = () => {
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        const formData = new FormData();
+        if (!profilePic) {
+            api.error({
+                message: "Please select a profile picture first",
+                description: 'Picture Required',
+                placement: 'topRight',
+            });
+            return;
+        }
+
+        formData.append('profile_image', profilePic)
+        editAdminProfile(formData).unwrap()
+            .then((data) => {
+                console.log(data);
+                api.success({
+                    message: 'Please logIn again to see updated data',
+                    description: 'Updated Successfully!',
+                    placement: 'topRight',
+                });
+                setProfilePic(null)
+            })
+            .catch((error) => {
+                api.error({
+                    message: error?.data?.message,
+                    description: 'Password Changed Failed',
+                    placement: 'topRight',
+                });
+            })
     };
 
-    const profilePicUrl = profilePic ? URL.createObjectURL(profilePic) : null;
+    const profilePicUrl = profilePic ? URL.createObjectURL(profilePic ? profilePic : user?.user?.profile_image) : null;
     const handleProfilePicUpload = (e: any) => {
         setProfilePic(e.file);
     };
 
     return (
         <div className="h-screen bg-white rounded-md">
+            {contextHolder}
             <div className="px-5 pb-5 h-full">
                 <div className="mx-auto flex flex-col justify-center items-center">
                     <div className="flex justify-center items-center bg-primary mt-5 text-white w-[715px] mx-auto p-5 gap-5 rounded-md">
@@ -51,6 +82,7 @@ const Profile: React.FC = () => {
                             {profilePic && (
                                 <button
                                     onClick={handleSubmit}
+                                    disabled={isLoading}
                                     className=" bg-primaryColor cursor-pointer text-primary rounded-md mt-4 px-2 py-1"
                                 >
                                     Upload Image
