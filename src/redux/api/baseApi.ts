@@ -8,7 +8,7 @@ import { setUser } from '../features/auth/authSlice';
 const baseQuery = fetchBaseQuery({
     baseUrl: 'http://10.0.60.118:5006',
     prepareHeaders: (headers, { getState }) => {
-        const token = (getState() as { logInUser: { token?: string } }).logInUser.token;
+        const token = (getState() as { logInUser: { accessToken?: string } }).logInUser.accessToken;
         if (token) {
             headers.set('authorization', `Bearer ${token}`);
         }
@@ -26,7 +26,7 @@ const baseQueryWithLogoutOnError = async (
         // Log out user and clear session
         api.dispatch(setUser({ user: null, token: null }));
         message.error('Session expired. Please log in again.');
-        window.location.href = '/sign-in';
+        window.location.href = '/auth/login';
     }
     return result;
 };
