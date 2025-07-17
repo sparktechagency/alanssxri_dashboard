@@ -6,10 +6,11 @@ const authApi = baseApi.injectEndpoints({
 
         updatePrivacyPolicy: builder.mutation({
             query: (data) => ({
-                url: '/dashboard/terms',
-                method: 'POST',
+                url: '/dashboard/privacy',
+                method: 'PUT',
                 body: data,
             }),
+            invalidatesTags: ["privacy"]
         }),
 
         getPrivacyPolicy: builder.query({
@@ -17,12 +18,13 @@ const authApi = baseApi.injectEndpoints({
                 url: `/dashboard/privacy`,
                 method: 'GET',
             }),
+            providesTags: ["privacy"]
         }),
 
         updateTermsAndCondition: builder.mutation({
             query: (data) => ({
                 url: '/dashboard/terms',
-                method: 'POST',
+                method: 'PUT',
                 body: data,
             }),
         }),
@@ -37,7 +39,7 @@ const authApi = baseApi.injectEndpoints({
         updateDisclaimer: builder.mutation({
             query: (data) => ({
                 url: '/dashboard/disclaimer',
-                method: 'POST',
+                method: 'PUT',
                 body: data,
             }),
         }),
