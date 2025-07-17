@@ -1,4 +1,4 @@
-import { Form, Input, message } from "antd";
+import { Form, Input, notification } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { FC } from "react";
 import { useDispatch } from "react-redux";
@@ -12,7 +12,7 @@ interface LoginFormValues {
 }
 
 const LogIn: FC = () => {
-
+    const [api, contextHolder] = notification.useNotification();
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
@@ -31,12 +31,25 @@ const LogIn: FC = () => {
                 if (data?.data?.user?.authId?.role === "ADMIN") {
                     dispatch(setUser({ user: adminData, accessToken: accessToken, refreshToken }))
                     navigate(`/`)
-                    message.success("LogIn Successfully!!!")
+                    api.open({
+                        type: 'success',
+                        message: 'LogIn',
+                        description: 'LogIn successfully!',
+                        placement: 'topRight',
+                    });
+
                 }
             })
+            
             .catch((error) => {
-                message.error(error?.data?.message)
                 console.log(error);
+                api.open({
+                    type: 'error',
+                    message: error?.data?.message,
+                    description: 'Login failed. Please try again.',
+                    placement: 'topRight',
+                });
+
             })
     };
 
@@ -44,6 +57,7 @@ const LogIn: FC = () => {
     return (
 
         <div className="h-auto md:h-screen bg-barColor">
+            {contextHolder}
             {/* Background Image wrapper (if needed in future) */}
             <div className="bg-primary py-14 md:py-0 h-full">
 
