@@ -1,36 +1,74 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Form, Input, Modal, Upload } from "antd";
+import { Button, Form, Input, Modal, notification, Upload } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { useUpdateNewslettersMutation } from "../../../../redux/features/newsletters/newslettersApi";
 
 
 type AddModalProps = {
     isModalOpen: boolean;
     handleOk: () => void;
     handleCancel: () => void;
+    newsletters: any;
 };
 
-const EditNewslettersModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps) => {
-
+const EditNewslettersModal = ({ isModalOpen, handleOk, handleCancel, newsletters }: AddModalProps) => {
     const [form] = Form.useForm();
+    const [api, contextHolder] = notification.useNotification();
     const [fileList, setFileList] = useState<any[]>([]);
 
-    const handleFileChange = (info: any) => {
-        if (info.fileList.length > 1) {
-            setFileList(info.fileList.slice(-1));
-        } else {
-            setFileList(info.fileList);
-        }
-    };
+    const [updateNewsletters, { isLoading }] = useUpdateNewslettersMutation();
 
+    useEffect(() => {
+        if (isModalOpen && newsletters) {
+            form.resetFields();
+            form.setFieldsValue({
+                title: newsletters?.title,
+                description: newsletters?.description,
+            });
+        }
+    }, [isModalOpen, newsletters, form]);
+
+    const handleFileChange = (info: any) => {
+        const newFileList = info.fileList.slice(-1);
+        setFileList(newFileList);
+    };
 
     const onFinish = (values: any) => {
-        console.log("Form Values: ", values);
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("description", values.description);
+
+        if (fileList.length > 0 && fileList[0]?.originFileObj) {
+            formData.append("image", fileList[0].originFileObj);
+        }
+
+        updateNewsletters({ data: formData, id: newsletters?._id })
+            .unwrap()
+            .then(() => {
+                api.success({
+                    message: "Newsletters Successfully!",
+                    description: "Newsletters updated.",
+                    placement: "topRight",
+                });
+                form.resetFields();
+                setFileList([]);
+                handleOk();
+            })
+            .catch((error) => {
+                api.error({
+                    message: error?.data?.message || "Update failed",
+                    description: "Something went wrong!",
+                    placement: "topRight",
+                });
+            });
     };
+
 
     return (
         <Modal centered footer={false} title="Edit" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            {contextHolder}
             <Form
                 form={form}
                 initialValues={undefined}
@@ -59,7 +97,7 @@ const EditNewslettersModal = ({ isModalOpen, handleOk, handleCancel }: AddModalP
                     label="Upload Image"
                     valuePropName="fileList"
                     getValueFromEvent={(e: any) => e?.fileList}
-                    rules={[{ required: true, message: "Please upload the image!" }]}
+                    rules={[{ message: "Please upload the image!" }]}
                 >
                     <Upload
                         name="Image"
@@ -76,9 +114,10 @@ const EditNewslettersModal = ({ isModalOpen, handleOk, handleCancel }: AddModalP
                 <Form.Item>
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="rounded-lg font-semibold cursor-pointer bg-primaryColor text-white px-3 py-2"
                     >
-                        Update
+                        {isLoading ? "Loading..." : "Save Changes"}
                     </button>
                 </Form.Item>
             </Form>

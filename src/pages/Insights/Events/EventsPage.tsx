@@ -65,7 +65,7 @@ const EventsPage = () => {
             })
             .catch((error) => {
                 api.error({
-                    message: error?.data?.message || "Update failed",
+                    message: error?.data?.message || "Deletion failed",
                     description: "Something went wrong!",
                     placement: "topRight",
                 });

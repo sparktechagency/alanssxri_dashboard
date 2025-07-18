@@ -114,6 +114,7 @@ const EditEventModal = ({ isModalOpen, handleOk, handleCancel, event }: AddModal
                 <Form.Item>
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="rounded-lg font-semibold cursor-pointer bg-primaryColor text-white px-3 py-2"
                     >
                         {isLoading ? "Loading..." : "Save Changes"}
