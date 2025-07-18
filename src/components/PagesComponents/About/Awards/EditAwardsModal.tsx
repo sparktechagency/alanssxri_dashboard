@@ -26,19 +26,6 @@ const EditAwardsModal = ({ isModalOpen, handleOk, handleCancel, award }: AddModa
                 title: award.title,
                 description: award.description,
             });
-
-            if (award.image) {
-                setFileList([
-                    {
-                        uid: "-1",
-                        name: "Existing Image",
-                        status: "done",
-                        url: award.image,
-                    },
-                ]);
-            } else {
-                setFileList([]);
-            }
         }
     }, [isModalOpen, award, form]);
 
@@ -56,7 +43,7 @@ const EditAwardsModal = ({ isModalOpen, handleOk, handleCancel, award }: AddModa
             formData.append("image", fileList[0].originFileObj);
         }
 
-        updateAwards({ data:formData, id: award._id })
+        updateAwards({ data: formData, id: award._id })
             .unwrap()
             .then(() => {
                 api.success({

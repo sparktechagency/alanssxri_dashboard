@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Form, Input, Modal, Upload } from "antd";
+import { Button, Form, Input, Modal, notification, Upload } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { useCreateAwardsMutation } from "../../../../redux/features/awards/awardsApi";
 
 
 type AddModalProps = {
@@ -12,25 +13,49 @@ type AddModalProps = {
 };
 
 const AddAwardsModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps) => {
-
+    const [api, contextHolder] = notification.useNotification();
     const [form] = Form.useForm();
     const [fileList, setFileList] = useState<any[]>([]);
 
+    const [createAwards, { isLoading }] = useCreateAwardsMutation();
     const handleFileChange = (info: any) => {
-        if (info.fileList.length > 1) {
-            setFileList(info.fileList.slice(-1));
-        } else {
-            setFileList(info.fileList);
-        }
+        const newFileList = info.fileList.slice(-1);
+        setFileList(newFileList);
     };
 
-
     const onFinish = (values: any) => {
-        console.log("Form Values: ", values);
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("description", values.description);
+
+        if (fileList.length > 0 && fileList[0]?.originFileObj) {
+            formData.append("image", fileList[0].originFileObj);
+        }
+
+        createAwards(formData)
+            .unwrap()
+            .then(() => {
+                api.success({
+                    message: "Award Created Successfully!",
+                    description: "Award Created.",
+                    placement: "topRight",
+                });
+                form.resetFields();
+                setFileList([]);
+                handleOk();
+            })
+            .catch((error) => {
+                api.error({
+                    message: error?.data?.message || "Creation failed",
+                    description: "Something went wrong!",
+                    placement: "topRight",
+                });
+            });
     };
 
     return (
         <Modal centered footer={false} title="Add Awards" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            {contextHolder}
             <Form
                 form={form}
                 initialValues={undefined}
@@ -76,9 +101,10 @@ const AddAwardsModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps) 
                 <Form.Item>
                     <button
                         type="submit"
+                        disabled={isLoading}
                         className="rounded-lg font-semibold cursor-pointer bg-primaryColor text-white px-3 py-2"
                     >
-                        Add
+                        {isLoading ? "Loading..." : "Add"}
                     </button>
                 </Form.Item>
             </Form>
