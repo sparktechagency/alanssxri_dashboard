@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Table } from "antd";
+import { notification, Popconfirm, Table } from "antd";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 // import { CiSearch } from "react-icons/ci";
@@ -7,7 +7,7 @@ import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
 import AddAwardsModal from "../../../components/PagesComponents/About/Awards/AddAwardsModal";
 import EditAwardsModal from "../../../components/PagesComponents/About/Awards/EditAwardsModal";
-import { useGetAllAwardsQuery } from "../../../redux/features/awards/awardsApi";
+import { useDeleteAwardsMutation, useGetAllAwardsQuery } from "../../../redux/features/awards/awardsApi";
 
 const Awards = () => {
     // const [currentPage, setCurrentPage] = useState<number>(1);
@@ -16,6 +16,7 @@ const Awards = () => {
     // const handlePageChange = (page: number) => {
     //     setCurrentPage(page);
     // }
+    const [api, contextHolder] = notification.useNotification();
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const showModal = () => {
@@ -46,12 +47,32 @@ const Awards = () => {
     const { data } = useGetAllAwardsQuery(undefined);
 
     interface DataType {
-        id: string,
+        _id: string,
         title: string,
         description: string,
         image: string,
     }
+    const [deleteAwards] = useDeleteAwardsMutation();
 
+    const confirm = (id: string) => {
+        console.log('sure to delete award?', id);
+        deleteAwards(id)
+            .unwrap()
+            .then(() => {
+                api.success({
+                    message: "Deleted Successfully!",
+                    description: "Award Deleted.",
+                    placement: "topRight",
+                });;
+            })
+            .catch((error) => {
+                api.error({
+                    message: error?.data?.message || "Update failed",
+                    description: "Something went wrong!",
+                    placement: "topRight",
+                });
+            });
+    };
 
     const columns = [
         {
@@ -82,7 +103,16 @@ const Awards = () => {
             render: (record: DataType) => (
                 <div className="flex items-center gap-3">
                     <MdOutlineModeEdit onClick={() => showEditModal(record)} size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" />
-                    <RiDeleteBin6Line size={40} className="text-white bg-red-600 rounded p-2 cursor-pointer" />
+                    <Popconfirm
+                        title="Delete the award"
+                        description="Are you sure to delete award?"
+                        onConfirm={() => confirm(record?._id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
+                        <RiDeleteBin6Line size={40} className="text-white bg-red-600 rounded p-2 cursor-pointer" />
+                    </Popconfirm>
+
                 </div>
             ),
         },
@@ -92,6 +122,7 @@ const Awards = () => {
 
     return (
         <div className="bg-white p-5 rounded-lg  shadow-md mb-6">
+            {contextHolder}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-5">
                 <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">Awards</h2>
                 {/* <div className=" w-[250px]">

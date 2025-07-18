@@ -31,10 +31,9 @@ const awardsApi = baseApi.injectEndpoints({
         }),
 
         deleteAwards: builder.mutation({
-            query: ({ data, id }) => ({
+            query: (id) => ({
                 url: `/dashboard/award/${id}`,
                 method: 'DELETE',
-                body: data,
             }),
             invalidatesTags: ["awards"]
         }),
