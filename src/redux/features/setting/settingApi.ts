@@ -1,0 +1,64 @@
+import { baseApi } from "../../api/baseApi";
+
+
+const authApi = baseApi.injectEndpoints({
+    endpoints: (builder) => ({
+
+        updatePrivacyPolicy: builder.mutation({
+            query: (data) => ({
+                url: '/dashboard/privacy',
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ["privacy"]
+        }),
+
+        getPrivacyPolicy: builder.query({
+            query: () => ({
+                url: `/dashboard/privacy`,
+                method: 'GET',
+            }),
+            providesTags: ["privacy"]
+        }),
+
+        updateTermsAndCondition: builder.mutation({
+            query: (data) => ({
+                url: '/dashboard/terms',
+                method: 'PUT',
+                body: data,
+            }),
+        }),
+
+        getTermsAndCondition: builder.query({
+            query: () => ({
+                url: `/dashboard/terms`,
+                method: 'GET',
+            }),
+        }),
+
+        updateDisclaimer: builder.mutation({
+            query: (data) => ({
+                url: '/dashboard/disclaimer',
+                method: 'PUT',
+                body: data,
+            }),
+        }),
+
+        getDisclaimer: builder.query({
+            query: () => ({
+                url: `/dashboard/disclaimer`,
+                method: 'GET',
+            }),
+        }),
+
+    }),
+});
+
+export const {
+    useUpdatePrivacyPolicyMutation,
+    useGetPrivacyPolicyQuery,
+    useUpdateTermsAndConditionMutation,
+    useGetTermsAndConditionQuery,
+    useUpdateDisclaimerMutation,
+    useGetDisclaimerQuery,
+} = authApi;

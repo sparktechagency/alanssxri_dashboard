@@ -1,36 +1,73 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Form, Input, Modal, Upload } from "antd";
+import { Button, Form, Input, Modal, notification, Upload } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { MdOutlineFileUpload } from "react-icons/md";
+import { useUpdateUpdatesMutation } from "../../../../redux/features/updates/updatesApi";
 
 
 type AddModalProps = {
     isModalOpen: boolean;
     handleOk: () => void;
     handleCancel: () => void;
+    update: any;
 };
 
-const EditUpdateModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps) => {
-
+const EditUpdateModal = ({ isModalOpen, handleOk, handleCancel, update }: AddModalProps) => {
     const [form] = Form.useForm();
+    const [api, contextHolder] = notification.useNotification();
     const [fileList, setFileList] = useState<any[]>([]);
 
-    const handleFileChange = (info: any) => {
-        if (info.fileList.length > 1) {
-            setFileList(info.fileList.slice(-1));
-        } else {
-            setFileList(info.fileList);
+    const [updateUpdates, { isLoading }] = useUpdateUpdatesMutation();
+
+    useEffect(() => {
+        if (isModalOpen && update) {
+            form.resetFields();
+            form.setFieldsValue({
+                title: update.title,
+                description: update.description,
+            });
         }
+    }, [isModalOpen, update, form]);
+
+    const handleFileChange = (info: any) => {
+        const newFileList = info.fileList.slice(-1);
+        setFileList(newFileList);
     };
 
-
     const onFinish = (values: any) => {
-        console.log("Form Values: ", values);
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("description", values.description);
+
+        if (fileList.length > 0 && fileList[0]?.originFileObj) {
+            formData.append("image", fileList[0].originFileObj);
+        }
+
+        updateUpdates({ data: formData, id: update._id })
+            .unwrap()
+            .then(() => {
+                api.success({
+                    message: "Updated Successfully!",
+                    description: "update updated.",
+                    placement: "topRight",
+                });
+                form.resetFields();
+                setFileList([]);
+                handleOk();
+            })
+            .catch((error) => {
+                api.error({
+                    message: error?.data?.message || "Update failed",
+                    description: "Something went wrong!",
+                    placement: "topRight",
+                });
+            });
     };
 
     return (
         <Modal centered footer={false} title="Edit Update" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            {contextHolder}
             <Form
                 form={form}
                 initialValues={undefined}
@@ -59,7 +96,7 @@ const EditUpdateModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps)
                     label="Upload Image"
                     valuePropName="fileList"
                     getValueFromEvent={(e: any) => e?.fileList}
-                    rules={[{ required: true, message: "Please upload the image!" }]}
+                    rules={[{ message: "Please upload the image!" }]}
                 >
                     <Upload
                         name="Image"
@@ -78,7 +115,7 @@ const EditUpdateModal = ({ isModalOpen, handleOk, handleCancel }: AddModalProps)
                         type="submit"
                         className="rounded-lg font-semibold cursor-pointer bg-primaryColor text-white px-3 py-2"
                     >
-                        Save Changes
+                        {isLoading ? "Loading..." : "Save Changes"}
                     </button>
                 </Form.Item>
             </Form>
