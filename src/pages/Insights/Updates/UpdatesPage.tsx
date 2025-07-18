@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Input, Pagination, Table } from "antd";
+import { Input, notification, Popconfirm, Table } from "antd";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import tableContentImage from '../../../assets/tableImage.png'
 import { CiSearch } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
 import NewUpdatesModal from "../../../components/PagesComponents/Insights/Updates/NewUpdatesModal";
 import EditUpdateModal from "../../../components/PagesComponents/Insights/Updates/EditUpdateModal";
+import { useDeleteUpdatesMutation, useGetAllUpdatesQuery } from "../../../redux/features/updates/updatesApi";
 
 
 
 const UpdatesPage = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    console.log(currentPage);
-    const pageSize = 10;
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
+    // const [currentPage, setCurrentPage] = useState<number>(1);
+    const [api, contextHolder] = notification.useNotification();
+    // const pageSize = 10;
+    // const handlePageChange = (page: number) => {
+    //     setCurrentPage(page);
+    // };
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
     const showModal = () => {
@@ -31,8 +31,11 @@ const UpdatesPage = () => {
     };
 
     const [isModalEditOpen, setIsModaEditlOpen] = useState<boolean>(false);
-    const showEditModal = () => {
+    const [selectedItem, setSelectedItem] = useState<any>(null);
+
+    const showEditModal = (data: any) => {
         setIsModaEditlOpen(true);
+        setSelectedItem(data)
     };
     const handleEditOk = () => {
         setIsModaEditlOpen(false);
@@ -42,88 +45,75 @@ const UpdatesPage = () => {
     };
 
     interface DataType {
-        id: string,
+        _id: string,
         title: string,
         description: string,
     }
 
-    const articles: DataType[] = [
-        {
-            id: "#1233",
-            title: "Qatar and the Brave New World of Digital Assets",
-            description: "With experience that spans virtually every sector o..."
-        },
-        {
-            id: "#1233",
-            title: "Termination of Fixed Term Contracts on Notice",
-            description: "From structuring compensation and incentive pack..."
-        },
-        {
-            id: "#1233",
-            title: "Qatar and the Brave New World of Digital Assets",
-            description: "Al-Ansari & Associates advises international and do..."
-        },
-        {
-            id: "#1233",
-            title: "Termination of Fixed Term Contracts on Notice",
-            description: "International and domestic lenders trust Al-Ansari..."
-        },
-        {
-            id: "#1233",
-            title: "Qatar and the Brave New World of Digital Assets",
-            description: "We have advised and provided counsel to major ed..."
-        },
-        {
-            id: "#1233",
-            title: "Qatar and the Brave New World of Digital Assets",
-            description: "From structuring compensation and incentive pack..."
-        },
-        {
-            id: "#1233",
-            title: "Termination of Fixed Term Contracts on Notice",
-            description: "International and domestic lenders trust Al-Ansari..."
-        },
-        {
-            id: "#1233",
-            title: "Qatar and the Brave New World of Digital Assets",
-            description: "Al-Ansari & Associates advises international and do..."
-        },
-    ];
+    const { data } = useGetAllUpdatesQuery(undefined);
+
+    const [deleteUpdates] = useDeleteUpdatesMutation();
+
+    const confirm = (id: string) => {
+        console.log('sure to delete award?', id);
+        deleteUpdates(id)
+            .unwrap()
+            .then(() => {
+                api.success({
+                    message: "Deleted Successfully!",
+                    description: "Award Deleted.",
+                    placement: "topRight",
+                });;
+            })
+            .catch((error) => {
+                api.error({
+                    message: error?.data?.message || "Update failed",
+                    description: "Something went wrong!",
+                    placement: "topRight",
+                });
+            });
+    };
+
+
     const columns = [
         {
             title: "S No.",
-            dataIndex: "id",
-            render: (_: any, record: DataType) => <div>{record?.id}</div>,
+            render: (_: any, __: DataType, index: number) => <div>{index + 1}</div>,
         },
         {
             title: "Title",
             dataIndex: "title",
-            render: (_: any, record: DataType) => <div>{record?.title}</div>,
+            render: (title: string) => <div>{title}</div>,
         },
         {
             title: "Description",
             dataIndex: "description",
-            render: (_: any, record: DataType) => <div>{record?.description}</div>,
+            render: (desc: string) => <div>{desc}</div>,
         },
         {
             title: "Image",
             dataIndex: "image",
-            render: () => <div>
-                <img src={tableContentImage} className=" w-20" alt="image" />
-            </div>,
+            render: (image: string) => (
+                <div>
+                    <img src={image} className="w-20" alt="award" />
+                </div>
+            ),
         },
         {
             title: "Action",
-            render: () => (
-                <div className="">
-                    <div className="flex items-center gap-3">
-
-                        {/* <Link to={`/people-management/edit-person`}> */}
-                        <MdOutlineModeEdit onClick={showEditModal} size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" />
-                        {/* </Link> */}
+            render: (record: DataType) => (
+                <div className="flex items-center gap-3">
+                    <MdOutlineModeEdit onClick={() => showEditModal(record)} size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" />
+                    <Popconfirm
+                        title="Delete the update"
+                        description="Are you sure to delete update?"
+                        onConfirm={() => confirm(record?._id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
                         <RiDeleteBin6Line size={40} className="text-white bg-red-600 rounded p-2 cursor-pointer" />
+                    </Popconfirm>
 
-                    </div>
                 </div>
             ),
         },
@@ -132,6 +122,7 @@ const UpdatesPage = () => {
 
     return (
         <div className="bg-white p-5 rounded-lg  shadow-md mb-6">
+            {contextHolder}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-5">
                 <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">Updates</h2>
                 <div className=" w-[250px]">
@@ -146,13 +137,13 @@ const UpdatesPage = () => {
                 <Table
                     columns={columns}
                     className="mt-5 overflow-x-scroll xl:overflow-auto bg-white rounded-lg"
-                    dataSource={articles}
+                    dataSource={data?.data}
                     pagination={false}
                     rowKey="_id"
                 />
             </div>
-            <EditUpdateModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel}></EditUpdateModal>
-            <div className=" mt-8 flex flex-col md:flex-row justify-between items-center">
+            <EditUpdateModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel} update={selectedItem}></EditUpdateModal>
+            {/* <div className=" mt-8 flex flex-col md:flex-row justify-between items-center">
                 <div>
                     <p className=" text-lg text-black mb-5 md:mb-0">Showing 1-11 out of  1239</p>
                 </div>
@@ -164,7 +155,7 @@ const UpdatesPage = () => {
                     onChange={handlePageChange}
                 />
 
-            </div>
+            </div> */}
         </div>
     );
 };
