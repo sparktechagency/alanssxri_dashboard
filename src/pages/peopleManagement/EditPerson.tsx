@@ -1,38 +1,22 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Avatar, Form, FormProps, Input, Select, Upload } from "antd";
+import { Avatar, Form, Input, notification, Select, Upload } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetSinglePeopleManagementQuery, useUpdatePeopleManagementMutation } from "../../redux/features/peopleManagement/peopleManagementApi";
 
 const EditPerson = () => {
     const [profilePic, setProfilePic] = useState<File | null>(null);
     const navigate = useNavigate();
     const [form] = Form.useForm();
+    const [api, contextHolder] = notification.useNotification();
     const profilePicUrl = profilePic ? URL.createObjectURL(profilePic) : null;
     const handleProfilePicUpload = (e: any) => {
         setProfilePic(e.file);
     };
-
-    // Default values (for a lawyer)
-    // const defaultValues = {
-    //     name: "John Doe",
-    //     position: "Senior Lawyer",
-    //     email: "john.doe@example.com",
-    //     phone: "+1234567890",
-    //     bio: "Experienced lawyer specializing in corporate law.",
-    //     education: "Harvard Law School",
-    //     barAdmission: "California Bar, 2015",
-    //     sectors: "Corporate, M&A",
-    //     experience: "10 years of experience in law.",
-    //     affiliation: "Lawyers Association",
-    //     facebook: "https://facebook.com/johndoe",
-    //     twitter: "https://twitter.com/johndoe",
-    //     instagram: "https://instagram.com/johndoe",
-    //     linkedin: "https://linkedin.com/in/johndoe"
-    // };
-
+    
     type FieldType = {
         category?: string;
         fullName?: string;
@@ -54,12 +38,109 @@ const EditPerson = () => {
         linkedin?: string;
     };
 
-    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
+    const { id } = useParams();
+    const { data } = useGetSinglePeopleManagementQuery(id);
+    console.log(data?.data);
+    const [updatePeopleManagement] = useUpdatePeopleManagementMutation()
+
+    useEffect(() => {
+        if (data?.data) {
+            form.setFieldsValue({
+                category: data.data.category,
+                fullName: data.data.fullName,
+                position: data.data.position,
+                email: data.data.email,
+                phoneNumber: data.data.phoneNumber,
+                bio: data.data.bio,
+                education: data.data.education,
+                barAdmission: data.data.barAdmission,
+                experience: data.data.experience,
+                affiliation: data.data.affiliation,
+                facebook: data.data.facebook,
+                twitter: data.data.twitter,
+                instagram: data.data.instagram,
+                linkedin: data.data.linkedin,
+                industry: data.data.industry,
+                practice: data.data.practice,
+                awards: data.data.awards,
+                professional: data.data.professional
+            });
+        }
+    }, [data, form]);
+
+    const onFinish = (values: any) => {
+        console.log('Form values:', values);
+        const formData = new FormData();
+        // Basic fields
+        formData.append("category", values.category);
+        formData.append("fullName", values.fullName);
+        formData.append("position", values.position);
+        formData.append("email", values.email);
+        formData.append("phoneNumber", values.phoneNumber);
+        formData.append("bio", values.bio);
+        formData.append("education", values.education);
+        formData.append("barAdmission", values.barAdmission);
+        formData.append("experience", values.experience);
+        formData.append("affiliation", values.affiliation);
+        formData.append("facebook", values.facebook);
+        formData.append("twitter", values.twitter);
+        formData.append("instagram", values.instagram);
+        formData.append("linkedin", values.linkedin);
+        formData.append("linkedin", values.linkedin);
+
+        // Lists (arrays)
+        if (Array.isArray(values.industry)) {
+            values.industry.forEach((item: string, index: number) => {
+                formData.append(`industry[${index}]`, item);
+            });
+        }
+
+        if (Array.isArray(values.practice)) {
+            values.practice.forEach((item: string, index: number) => {
+                formData.append(`practice[${index}]`, item);
+            });
+        }
+
+        if (Array.isArray(values.awards)) {
+            values.awards.forEach((item: string, index: number) => {
+                formData.append(`awards[${index}]`, item);
+            });
+        }
+
+        if (Array.isArray(values.professional)) {
+            values.professional.forEach((item: string, index: number) => {
+                formData.append(`professional[${index}]`, item);
+            });
+        }
+
+        // Profile picture
+        if (profilePic) {
+            formData.append("profile_image", profilePic);
+        }
+
+        updatePeopleManagement({ data: formData, id: data?.data?._id })
+            .unwrap()
+            .then(() => {
+                api.success({
+                    message: "People Updated Successfully!",
+                    description: "People Updated",
+                    placement: "topRight",
+                });
+                // form.resetFields();
+                navigate('/people-management');
+            })
+            .catch((error) => {
+                api.error({
+                    message: error?.data?.message || "Updating failed",
+                    description: "Something went wrong!",
+                    placement: "topRight",
+                });
+            });
     };
 
     return (
         <div className="min-h-screen">
+            {contextHolder}
             <div className="py-5 px-10 bg-white rounded">
                 <div className="flex gap-4 items-center">
                     <IoMdArrowBack onClick={() => navigate(-1)} size={28} className="text-primaryColor cursor-pointer" />

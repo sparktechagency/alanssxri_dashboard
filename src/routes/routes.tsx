@@ -43,7 +43,7 @@ const router = createBrowserRouter([
                 element: <AddNew></AddNew>,
             },
             {
-                path: "/people-management/edit-person",
+                path: "/people-management/edit-person/:id",
                 element: <EditPerson></EditPerson>
             },
             {
