@@ -47,7 +47,7 @@ const router = createBrowserRouter([
                 element: <EditPerson></EditPerson>
             },
             {
-                path: "/people-management/view-details",
+                path: "/people-management/view-details/:id",
                 element: <ViewDetails></ViewDetails>
             },
             {

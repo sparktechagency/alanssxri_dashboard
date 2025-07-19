@@ -11,6 +11,14 @@ const peopleManagementApi = baseApi.injectEndpoints({
             providesTags: ["peopleManagement"]
         }),
 
+        getSinglePeopleManagement: builder.query({
+            query: (id) => ({
+                url: `/dashboard/person/${id}`,
+                method: 'GET',
+            }),
+            providesTags: ["peopleManagement"]
+        }),
+
         createPeopleManagement: builder.mutation({
             query: (data) => ({
                 url: '/dashboard/person',
@@ -41,6 +49,7 @@ const peopleManagementApi = baseApi.injectEndpoints({
 
 export const {
     useGetAllPeopleManagementQuery,
+    useGetSinglePeopleManagementQuery,
     useCreatePeopleManagementMutation,
     useUpdatePeopleManagementMutation,
     useDeletePeopleManagementMutation
