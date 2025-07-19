@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Input, notification, Pagination, Popconfirm, Table } from "antd";
-import { useState } from "react";
-import { CiSearch } from "react-icons/ci";
+import { notification, Popconfirm, Table } from "antd";
+// import { useState } from "react";
+// import { CiSearch } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
 import { MdOutlineModeEdit, MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
@@ -19,12 +19,12 @@ interface UserData {
 
 
 const PeopleManagement: React.FC = () => {
-    const [currentPage, setCurrentPage] = useState<number>(1);
+    // const [currentPage, setCurrentPage] = useState<number>(1);
     const [api, contextHolder] = notification.useNotification();
-    const pageSize = 10;
-    const handlePageChange = (page: number) => {
-        setCurrentPage(page);
-    };
+    // const pageSize = 10;
+    // const handlePageChange = (page: number) => {
+    //     setCurrentPage(page);
+    // };
 
     const { data } = useGetAllPeopleManagementQuery(undefined);
     console.log(data?.data);
@@ -130,9 +130,9 @@ const PeopleManagement: React.FC = () => {
             <div className="bg-white p-5 rounded">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-5">
                     <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">People Management</h2>
-                    <div className=" w-[250px]">
+                    {/* <div className=" w-[250px]">
                         <Input prefix={<CiSearch className=" w-6 h-6" />} className="w-[250px]" placeholder="Search" />
-                    </div>
+                    </div> */}
                 </div>
                 <div>
                     <Link to={`/people-management/add-new`}><button className=" bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2"><FiPlus size={20} /> Add New</button></Link>
@@ -145,7 +145,7 @@ const PeopleManagement: React.FC = () => {
                     pagination={false}
                     rowKey="_id"
                 />
-                <div className=" mt-8 flex flex-col md:flex-row justify-between items-center">
+                {/* <div className=" mt-8 flex flex-col md:flex-row justify-between items-center">
                     <div>
                         <p className=" text-lg text-black mb-5 md:mb-0">Showing 1-11 out of  1239</p>
                     </div>
@@ -157,7 +157,7 @@ const PeopleManagement: React.FC = () => {
                         onChange={handlePageChange}
                     />
 
-                </div>
+                </div> */}
             </div>
         </div>
     );
