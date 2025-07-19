@@ -1,13 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Avatar, Form, FormProps, Input, Upload } from "antd";
+import { Avatar, Form, Input, notification, Select, Upload } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useState } from "react";
 import { FaCamera } from "react-icons/fa";
 import { IoMdArrowBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import { useCreatePeopleManagementMutation } from "../../redux/features/peopleManagement/peopleManagementApi";
 
 const AddNew = () => {
     const [profilePic, setProfilePic] = useState<File | null>(null);
+    const [form] = Form.useForm();
     const navigate = useNavigate();
     const profilePicUrl = profilePic ? URL.createObjectURL(profilePic) : null;
     const handleProfilePicUpload = (e: any) => {
@@ -15,28 +17,103 @@ const AddNew = () => {
     };
 
     type FieldType = {
-        name?: string;
+        category?: string;
+        fullName?: string;
         position?: string;
         email?: string;
-        phone?: string;
+        phoneNumber?: string;
         bio?: string;
         education?: string;
         barAdmission?: string;
-        sectors?: string;
         experience?: string;
         affiliation?: string;
+        industry?: string[];
+        practice?: string[];
+        awards?: string[];
+        professional?: string[];
         facebook?: string;
         twitter?: string;
         instagram?: string;
         linkedin?: string;
     };
 
-    const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-        console.log('Success:', values);
+    const [api, contextHolder] = notification.useNotification();
+    const [createPeopleManagement, { isLoading }] = useCreatePeopleManagementMutation();
+
+    const onFinish = (values: any) => {
+        console.log('Form values:', values);
+        const formData = new FormData();
+        // Basic fields
+        formData.append("category", values.category);
+        formData.append("fullName", values.fullName);
+        formData.append("position", values.position);
+        formData.append("email", values.email);
+        formData.append("phoneNumber", values.phoneNumber);
+        formData.append("bio", values.bio);
+        formData.append("education", values.education);
+        formData.append("barAdmission", values.barAdmission);
+        formData.append("experience", values.experience);
+        formData.append("affiliation", values.affiliation);
+        formData.append("facebook", values.facebook);
+        formData.append("twitter", values.twitter);
+        formData.append("instagram", values.instagram);
+        formData.append("linkedin", values.linkedin);
+        formData.append("linkedin", values.linkedin);
+
+        // Lists (arrays)
+        if (Array.isArray(values.industry)) {
+            values.industry.forEach((item: string, index: number) => {
+                formData.append(`industry[${index}]`, item);
+            });
+        }
+
+        if (Array.isArray(values.practice)) {
+            values.practice.forEach((item: string, index: number) => {
+                formData.append(`practice[${index}]`, item);
+            });
+        }
+
+        if (Array.isArray(values.awards)) {
+            values.awards.forEach((item: string, index: number) => {
+                formData.append(`awards[${index}]`, item);
+            });
+        }
+
+        if (Array.isArray(values.professional)) {
+            values.professional.forEach((item: string, index: number) => {
+                formData.append(`professional[${index}]`, item);
+            });
+        }
+
+        // Profile picture
+        if (profilePic) {
+            formData.append("profile_image", profilePic);
+        }
+
+        createPeopleManagement(formData)
+            .unwrap()
+            .then(() => {
+                api.success({
+                    message: "People Added Successfully!",
+                    description: "People Added",
+                    placement: "topRight",
+                });
+                form.resetFields();
+                navigate('/people-management');
+            })
+            .catch((error) => {
+                api.error({
+                    message: error?.data?.message || "Adding failed",
+                    description: "Something went wrong!",
+                    placement: "topRight",
+                });
+            });
     };
+
 
     return (
         <div className="min-h-screen">
+            {contextHolder}
             <div className="py-5 px-10 bg-white rounded">
                 <div className="flex gap-4 items-center">
                     <IoMdArrowBack onClick={() => navigate(-1)} size={28} className="text-primaryColor cursor-pointer" />
@@ -66,16 +143,28 @@ const AddNew = () => {
                 <div>
                     <Form
                         name="basic"
+                        form={form}
                         layout="vertical"
-                        initialValues={{ remember: true }}
                         onFinish={onFinish}
                         autoComplete="off"
                     >
+                        <Form.Item<FieldType>
+                            label="Category"
+                            name="category"
+                            className="w-full"
+                            rules={[{ required: true, message: 'Please select a category!' }]}
+                        >
+                            <Select placeholder="Select a category">
+                                <Select.Option value="partners">Partners</Select.Option>
+                                <Select.Option value="team">Team</Select.Option>
+                            </Select>
+                        </Form.Item>
+
                         <h2 className="text-lg font-semibold mb-2">General Info</h2>
                         <div className="flex gap-5 justify-between items-center">
                             <Form.Item<FieldType>
                                 label="Full Name"
-                                name="name"
+                                name="fullName"
                                 className="w-full"
                                 rules={[{ required: true, message: 'Please input your full name!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
@@ -100,7 +189,7 @@ const AddNew = () => {
 
                             <Form.Item<FieldType>
                                 label="Phone Number"
-                                name="phone"
+                                name="phoneNumber"
                                 className="w-full"
                                 rules={[{ required: true, message: 'Please input your phone number!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
@@ -112,7 +201,7 @@ const AddNew = () => {
                             name="bio"
                             className="w-full"
                             rules={[{ required: true, message: 'Please input your bio!' }]}>
-                            <TextArea rows={8} placeholder="Write Here" className="w-full" />
+                            <TextArea rows={5} placeholder="Write Here" className="w-full" />
                         </Form.Item>
 
                         <h2 className="text-lg font-semibold mb-2">Education & Qualification</h2>
@@ -133,15 +222,113 @@ const AddNew = () => {
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
                         </div>
-                        <Form.Item<FieldType>
-                            label="Sectors"
-                            name="sectors"
-                            className="w-full"
-                            rules={[{ required: true, message: 'Please input your sectors!' }]}>
-                            <Input placeholder="Input Here" className="w-full" />
-                        </Form.Item>
 
-                        <h2 className="text-lg font-semibold mb-2">Experience & Affiliation</h2>
+                        <h2 className="text-lg font-semibold mb-2">Industry Focus</h2>
+                        <Form.List name="industry">
+                            {(fields, { add, remove }) => (
+                                <>
+                                    {fields.map(({ key, name, ...restField }) => (
+                                        <div key={key} className="flex items-center gap-4 mb-2">
+                                            <Form.Item
+                                                {...restField}
+                                                name={name}
+                                                rules={[{ required: true, message: 'Please input an industry focus!' }]}
+                                                className="w-full"
+                                            >
+                                                <Input placeholder="Type here" />
+                                            </Form.Item>
+                                            <button type="button" onClick={() => remove(name)} className="text-red-500 cursor-pointer mb-5">Remove</button>
+                                        </div>
+                                    ))}
+                                    <Form.Item>
+                                        <button type="button" onClick={() => add()} className="text-primaryColor cursor-pointer">
+                                            + Add Award
+                                        </button>
+                                    </Form.Item>
+                                </>
+                            )}
+                        </Form.List>
+
+                        <h2 className="text-lg font-semibold mb-2">Practice Areas</h2>
+                        <Form.List name="practice">
+                            {(fields, { add, remove }) => (
+                                <>
+                                    {fields.map(({ key, name, ...restField }) => (
+                                        <div key={key} className="flex items-center gap-4 mb-2">
+                                            <Form.Item
+                                                {...restField}
+                                                name={name}
+                                                rules={[{ required: true, message: 'Please input an practice areas!' }]}
+                                                className="w-full"
+                                            >
+                                                <Input placeholder="Type here" />
+                                            </Form.Item>
+                                            <button type="button" onClick={() => remove(name)} className="text-red-500 cursor-pointer mb-5">Remove</button>
+                                        </div>
+                                    ))}
+                                    <Form.Item>
+                                        <button type="button" onClick={() => add()} className="text-primaryColor cursor-pointer">
+                                            + Add Award
+                                        </button>
+                                    </Form.Item>
+                                </>
+                            )}
+                        </Form.List>
+
+                        <h2 className="text-lg font-semibold mb-2">Awards & Recognition</h2>
+                        <Form.List name="awards">
+                            {(fields, { add, remove }) => (
+                                <>
+                                    {fields.map(({ key, name, ...restField }) => (
+                                        <div key={key} className="flex items-center gap-4 mb-2">
+                                            <Form.Item
+                                                {...restField}
+                                                name={name}
+                                                rules={[{ required: true, message: 'Please input an award or recognition!' }]}
+                                                className="w-full"
+                                            >
+                                                <Input placeholder="e.g., 2021 - Best Young Lawyer Award" />
+                                            </Form.Item>
+                                            <button type="button" onClick={() => remove(name)} className="text-red-500 cursor-pointer mb-5">Remove</button>
+                                        </div>
+                                    ))}
+                                    <Form.Item>
+                                        <button type="button" onClick={() => add()} className="text-primaryColor cursor-pointer">
+                                            + Add Award
+                                        </button>
+                                    </Form.Item>
+                                </>
+                            )}
+                        </Form.List>
+
+                        <h2 className="text-lg font-semibold mt-6 mb-2">Professional Highlights</h2>
+                        <Form.List name="professional">
+                            {(fields, { add, remove }) => (
+                                <>
+                                    {fields.map(({ key, name, ...restField }) => (
+                                        <div key={key} className="flex items-center gap-4 mb-2">
+                                            <Form.Item
+                                                {...restField}
+                                                name={name}
+                                                rules={[{ required: true, message: 'Please input a professional highlight!' }]}
+                                                className="w-full"
+                                            >
+                                                <Input placeholder="e.g., 2021 - Present: Associate, Al-Ansari Law" />
+                                            </Form.Item>
+                                            <button type="button" onClick={() => remove(name)} className="text-red-500 cursor-pointer mb-5">Remove</button>
+                                        </div>
+                                    ))}
+                                    <Form.Item>
+                                        <button type="button" onClick={() => add()} className="text-primaryColor cursor-pointer">
+                                            + Add Highlight
+                                        </button>
+                                    </Form.Item>
+                                </>
+                            )}
+                        </Form.List>
+
+
+                        <h2 className="text-lg font-semibold mb-2">Experience</h2>
                         <Form.Item<FieldType>
                             label="Experience"
                             name="experience"
@@ -196,16 +383,20 @@ const AddNew = () => {
 
                         <div className="flex justify-center mt-6 gap-4">
                             <button type="reset" className=" border border-primaryColor text-primaryColor px-10 md:px-12 py-2 md:py-2.5 cursor-pointer rounded text-lg">
-                                cancel
+                                Cancel
                             </button>
-                            <button type="submit" className=" bg-primaryColor text-white px-10 md:px-14 py-2 md:py-2.5 cursor-pointer rounded text-lg">
-                                Add
+                            <button
+                                disabled={isLoading}
+                                type="submit"
+                                className=" bg-primaryColor text-white px-10 md:px-14 py-2 md:py-2.5 cursor-pointer rounded text-lg"
+                            >
+                                {isLoading ? "Loading..." : "Add New"}
                             </button>
                         </div>
                     </Form>
                 </div>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
