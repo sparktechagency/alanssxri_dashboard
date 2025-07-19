@@ -43,11 +43,11 @@ const router = createBrowserRouter([
                 element: <AddNew></AddNew>,
             },
             {
-                path: "/people-management/edit-person",
+                path: "/people-management/edit-person/:id",
                 element: <EditPerson></EditPerson>
             },
             {
-                path: "/people-management/view-details",
+                path: "/people-management/view-details/:id",
                 element: <ViewDetails></ViewDetails>
             },
             {

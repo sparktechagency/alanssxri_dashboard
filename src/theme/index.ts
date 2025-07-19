@@ -51,6 +51,15 @@ export const mainTheme = {
             "controlHeight": 45,
             "colorPrimary": "#af8b18"
         },
+        "Select": {
+            "activeBorderColor": "rgb(175,139,24)",
+            "hoverBorderColor": "rgb(175,139,24)",
+            "colorPrimaryActive": "rgb(175,139,24)",
+            "colorPrimaryHover": "rgb(175,139,24)",
+            "colorBorder": "rgb(175,139,24)",
+            "controlHeight": 45,
+            "colorPrimary": "#af8b18"
+        },
         "Table": {
             "borderColor": "rgba(255,255,255,0)",
             "fixedHeaderSortActiveBg": "rgb(255,255,255)",
