@@ -6,7 +6,7 @@ import { message } from 'antd';
 import { setUser } from '../features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://10.0.60.118:5006',
+    baseUrl: 'http://10.10.10.97:5000',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as { logInUser: { accessToken?: string } }).logInUser.accessToken;
         if (token) {
