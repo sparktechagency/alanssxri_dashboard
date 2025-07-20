@@ -113,7 +113,7 @@ const Events = () => {
                     pagination={false}
                     rowKey="_id"
                 />
-                <EditEventModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel} event={selectedItem}></EditEventModal>
+              <EditEventModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel} event={selectedItem}></EditEventModal>
             </div>
         </div>
     );
