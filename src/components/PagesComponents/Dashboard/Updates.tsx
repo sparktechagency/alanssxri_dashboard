@@ -1,85 +1,116 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Table } from "antd";
+import { notification, Popconfirm, Table } from "antd";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import tableContentImage from '../../../assets/tableImage.png'
+import { useState } from "react";
+import { useDeleteUpdatesMutation, useGetAllUpdatesQuery } from "../../../redux/features/updates/updatesApi";
+import EditUpdateModal from "../Insights/Updates/EditUpdateModal";
 
 const Updates = () => {
+    const [api, contextHolder] = notification.useNotification();
+
+    const [isModalEditOpen, setIsModaEditlOpen] = useState<boolean>(false);
+    const [selectedItem, setSelectedItem] = useState<any>(null);
+
+    const showEditModal = (data: any) => {
+        setIsModaEditlOpen(true);
+        setSelectedItem(data)
+    };
+    const handleEditOk = () => {
+        setIsModaEditlOpen(false);
+    };
+    const handleEditCancel = () => {
+        setIsModaEditlOpen(false);
+    };
 
     interface DataType {
-        id: string,
+        _id: string,
         title: string,
         description: string,
     }
 
-    const articles: DataType[] = [
-        {
-            id: "#1233",
-            title: "Qatar and the Brave New World of Digital Assets",
-            description: "With the recent announcement of the Qatar ..."
-        },
-        {
-            id: "#1223",
-            title: "Termination of Fixed Term Contracts on Notice",
-            description: "Qatar Employment Law Developments pursuant to Law No...."
-        },
-        {
-            id: "#1243",
-            title: "Article on the new Judicial-Enforcement Law 2024",
-            description: "A Detailed Overview of Law No. 4 of 2024 on Judicial Enforcement..."
-        }
-    ];
+    const { data } = useGetAllUpdatesQuery(undefined);
+
+    const [deleteUpdates] = useDeleteUpdatesMutation();
+
+    const confirm = (id: string) => {
+        console.log('sure to delete award?', id);
+        deleteUpdates(id)
+            .unwrap()
+            .then(() => {
+                api.success({
+                    message: "Deleted Successfully!",
+                    description: "Award Deleted.",
+                    placement: "topRight",
+                });;
+            })
+            .catch((error) => {
+                api.error({
+                    message: error?.data?.message || "Deletion failed",
+                    description: "Something went wrong!",
+                    placement: "topRight",
+                });
+            });
+    };
+
     const columns = [
         {
             title: "S No.",
-            dataIndex: "id",
-            render: (_: any, record: DataType) => <div>{record?.id}</div>,
+            render: (_: any, __: DataType, index: number) => <div>{index + 1}</div>,
         },
         {
             title: "Title",
             dataIndex: "title",
-            render: (_: any, record: DataType) => <div>{record?.title}</div>,
+            render: (title: string) => <div>{title}</div>,
         },
         {
             title: "Description",
             dataIndex: "description",
-            render: (_: any, record: DataType) => <div>{record?.description}</div>,
+            render: (desc: string) => <div>{desc.slice(0, 100)}...</div>,
         },
         {
             title: "Image",
             dataIndex: "image",
-            render: () => <div>
-                <img src={tableContentImage} className=" w-20" alt="image" />
-            </div>,
+            render: (image: string) => (
+                <div>
+                    <img src={image} className="w-20" alt="award" />
+                </div>
+            ),
         },
         {
             title: "Action",
-            render: () => (
-                <div className="">
-                    <div className="flex items-center gap-3">
-
-                        <Link to={`/people-management/edit-person`}><MdOutlineModeEdit size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" /></Link>
+            render: (record: DataType) => (
+                <div className="flex items-center gap-3">
+                    <MdOutlineModeEdit onClick={() => showEditModal(record)} size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" />
+                    <Popconfirm
+                        title="Delete the update"
+                        description="Are you sure to delete update?"
+                        onConfirm={() => confirm(record?._id)}
+                        okText="Yes"
+                        cancelText="No"
+                    >
                         <RiDeleteBin6Line size={40} className="text-white bg-red-600 rounded p-2 cursor-pointer" />
+                    </Popconfirm>
 
-                    </div>
                 </div>
             ),
         },
     ];
 
-
     return (
         <div className="bg-white p-5 rounded-lg  shadow-md mb-6">
+            {contextHolder}
             <div className=" flex justify-between items-center">
                 <h2 className=" text-xl font-semibold">Updates</h2>
                 <Link to={`/insights/updates`}><p className=" text-lg text-primaryColor cursor-pointer">View All</p></Link>
             </div>
             <div>
+                <EditUpdateModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel} update={selectedItem}></EditUpdateModal>
                 <Table
                     columns={columns}
                     className="mt-5 overflow-x-scroll xl:overflow-auto bg-white rounded-lg"
-                    dataSource={articles}
+                    dataSource={data?.data?.slice(0, 3)}
                     pagination={false}
                     rowKey="_id"
                 />
