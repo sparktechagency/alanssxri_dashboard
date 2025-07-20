@@ -67,7 +67,7 @@ const Updates = () => {
         {
             title: "Description",
             dataIndex: "description",
-            render: (desc: string) => <div>{desc.slice(1, 100)}...</div>,
+            render: (desc: string) => <div>{desc.slice(0, 100)}...</div>,
         },
         {
             title: "Image",
