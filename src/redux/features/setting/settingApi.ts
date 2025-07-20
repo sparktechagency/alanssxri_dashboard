@@ -51,6 +51,21 @@ const authApi = baseApi.injectEndpoints({
             }),
         }),
 
+        updateAboutUs: builder.mutation({
+            query: (data) => ({
+                url: '/dashboard/about_us',
+                method: 'PUT',
+                body: data,
+            }),
+        }),
+
+        getAboutUs: builder.query({
+            query: () => ({
+                url: `/dashboard/about_us`,
+                method: 'GET',
+            }),
+        }),
+
     }),
 });
 
@@ -61,4 +76,6 @@ export const {
     useGetTermsAndConditionQuery,
     useUpdateDisclaimerMutation,
     useGetDisclaimerQuery,
+    useUpdateAboutUsMutation,
+    useGetAboutUsQuery,
 } = authApi;
