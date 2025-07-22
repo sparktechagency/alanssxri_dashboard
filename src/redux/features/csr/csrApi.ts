@@ -6,7 +6,7 @@ const csrApi = baseApi.injectEndpoints({
 
         getAllCSR: builder.query({
             query: () => ({
-                url: `/dashboard/cras`,
+                url: `/dashboard/csr`,
                 method: 'GET',
             }),
             providesTags: ["csr"]
@@ -14,7 +14,7 @@ const csrApi = baseApi.injectEndpoints({
 
         createCSR: builder.mutation({
             query: (data) => ({
-                url: '/dashboard/cras',
+                url: '/dashboard/csr',
                 method: 'POST',
                 body: data,
             }),
@@ -23,7 +23,7 @@ const csrApi = baseApi.injectEndpoints({
 
         updateCSR: builder.mutation({
             query: ({ data, id }) => ({
-                url: `/dashboard/cras/${id}`,
+                url: `/dashboard/csr/${id}`,
                 method: 'PUT',
                 body: data,
             }),
@@ -32,7 +32,7 @@ const csrApi = baseApi.injectEndpoints({
 
         deleteCSR: builder.mutation({
             query: (id) => ({
-                url: `/dashboard/cras/${id}`,
+                url: `/dashboard/csr/${id}`,
                 method: 'DELETE',
             }),
             invalidatesTags: ["csr"]

@@ -66,6 +66,21 @@ const authApi = baseApi.injectEndpoints({
             }),
         }),
 
+        updateFraud: builder.mutation({
+            query: (data) => ({
+                url: '/dashboard/fraud',
+                method: 'PUT',
+                body: data,
+            }),
+        }),
+
+        getFraud: builder.query({
+            query: () => ({
+                url: `/dashboard/fraud`,
+                method: 'GET',
+            }),
+        }),
+
     }),
 });
 
@@ -78,4 +93,6 @@ export const {
     useGetDisclaimerQuery,
     useUpdateAboutUsMutation,
     useGetAboutUsQuery,
+    useUpdateFraudMutation,
+    useGetFraudQuery,
 } = authApi;
