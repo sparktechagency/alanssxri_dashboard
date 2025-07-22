@@ -42,7 +42,7 @@ const MainHeader: React.FC<MainHeaderProps> = ({ setCollapsed, collapsed }) => {
                         </div> */}
                         <Link to={`/settings/profile`}>
                             <div className=' flex items-center gap-2 cursor-pointer '>
-                                <Avatar src={`https://avatar.iran.liara.run/public/4`} size={40} className=' ring-1 ring-[#1c4587]' />
+                                <Avatar src={user?.user?.profile_image ? user?.user?.profile_image : `https://avatar.iran.liara.run/public/4`} size={40} className=' ring-1 ring-[#1c4587]' />
                                 <p className=' text-black font-semibold'>{user?.user?.name}</p>
                             </div>
                         </Link>
