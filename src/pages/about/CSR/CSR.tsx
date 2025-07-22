@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Input, notification, Popconfirm, Table } from "antd";
+import { notification, Popconfirm, Table } from "antd";
 import { MdOutlineModeEdit } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
-import { CiSearch } from "react-icons/ci";
+// import { CiSearch } from "react-icons/ci";
 import { FiPlus } from "react-icons/fi";
 import { useState } from "react";
 import AddCSRModal from "../../../components/PagesComponents/About/CSR/AddCSRModal";
@@ -121,9 +121,9 @@ const CSR = () => {
             {contextHolder}
             <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-5">
                 <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">CSR</h2>
-                <div className=" w-[250px]">
+                {/* <div className=" w-[250px]">
                     <Input prefix={<CiSearch className=" w-6 h-6" />} className="w-[250px]" placeholder="Search" />
-                </div>
+                </div> */}
             </div>
             <div>
                 <button onClick={showModal} className=" bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2"><FiPlus size={20} /> New CSR</button>
