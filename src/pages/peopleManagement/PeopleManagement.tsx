@@ -58,7 +58,7 @@ const PeopleManagement: React.FC = () => {
         {
             title: "S No.",
             dataIndex: "id",
-            render: (_: any, record: UserData, index: number) => <span>{index + 1}</span>,
+            render: (index: number) => <span>{index + 1}</span>,
         },
         {
             title: "Name",
