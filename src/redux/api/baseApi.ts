@@ -6,7 +6,7 @@ import { message } from 'antd';
 import { setUser } from '../features/auth/authSlice';
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://13.62.48.83:5001',
+    baseUrl: 'https://backend.alansarilaw.com',
     prepareHeaders: (headers, { getState }) => {
         const token = (getState() as { logInUser: { accessToken?: string } }).logInUser.accessToken;
         if (token) {
