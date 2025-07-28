@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Layout, theme } from 'antd';
 // import { IoNotificationsOutline } from 'react-icons/io5';
 import { RxHamburgerMenu } from 'react-icons/rx';
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useGetAdminProfileQuery } from '../../redux/features/auth/authApi';
 // import { RxHamburgerMenu } from "react-icons/rx";
 const { Header } = Layout;
 
@@ -13,7 +12,7 @@ interface MainHeaderProps {
 }
 
 const MainHeader: React.FC<MainHeaderProps> = ({ setCollapsed, collapsed }) => {
-    const user = useSelector((state: any) => state.logInUser)
+      const { data } = useGetAdminProfileQuery(undefined);
     const {
         token: { colorBgContainer },
     } = theme.useToken();
@@ -42,8 +41,8 @@ const MainHeader: React.FC<MainHeaderProps> = ({ setCollapsed, collapsed }) => {
                         </div> */}
                         <Link to={`/settings/profile`}>
                             <div className=' flex items-center gap-2 cursor-pointer '>
-                                <Avatar src={user?.user?.profile_image ? user?.user?.profile_image : `https://avatar.iran.liara.run/public/4`} size={40} className=' ring-1 ring-[#1c4587]' />
-                                <p className=' text-black font-semibold'>{user?.user?.name}</p>
+                                <Avatar src={data?.data?.profile_image ? `https://backend.alansarilaw.com${data.data.profile_image}` : `https://avatar.iran.liara.run/public/4`} size={40} className=' ring-1 ring-[#1c4587]' />
+                                <p className=' text-black font-semibold'>{data?.data?.name}</p>
                             </div>
                         </Link>
                     </div>
