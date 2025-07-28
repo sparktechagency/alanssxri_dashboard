@@ -62,7 +62,7 @@ const Events = () => {
         {
             title: "Title",
             dataIndex: "title",
-            render: (title: string) => <div>{title}</div>,
+            render: (title: string) => <div className="w-auto 2xl:w-[260px]">{title}</div>,
         },
         {
             title: "Description",
@@ -74,7 +74,7 @@ const Events = () => {
             dataIndex: "image",
             render: (image: string) => (
                 <div>
-                    <img src={image} className="w-20" alt="award" />
+                    <img src={`https://backend.alansarilaw.com${image}`} className="w-20 h-14 object-cover" alt="award" />
                 </div>
             ),
         },
@@ -113,7 +113,7 @@ const Events = () => {
                     pagination={false}
                     rowKey="_id"
                 />
-              <EditEventModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel} event={selectedItem}></EditEventModal>
+                <EditEventModal isModalOpen={isModalEditOpen} handleOk={handleEditOk} handleCancel={handleEditCancel} event={selectedItem}></EditEventModal>
             </div>
         </div>
     );

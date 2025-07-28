@@ -4,14 +4,14 @@ import { FaCamera } from "react-icons/fa";
 import { Avatar, notification, Upload } from "antd";
 import EditProfile from "../../components/PagesComponents/Profile/EditProfile";
 import ChangePassword from "../../components/PagesComponents/Profile/ChnagePassword";
-import { useSelector } from "react-redux";
-import { useEditAdminProfileMutation } from "../../redux/features/auth/authApi";
+import { useEditAdminProfileMutation, useGetAdminProfileQuery } from "../../redux/features/auth/authApi";
 
 type Tab = "editProfile" | "changePassword";
 
 const Profile: React.FC = () => {
     const [api, contextHolder] = notification.useNotification();
-    const user = useSelector((state: any) => state.logInUser)
+    const { data } = useGetAdminProfileQuery(undefined);
+    console.log(data);
     const [editAdminProfile, { isLoading }] = useEditAdminProfileMutation();
 
     // const [profilePic, setProfilePic] = useState<File | null>(null);
@@ -42,15 +42,20 @@ const Profile: React.FC = () => {
                 setProfilePic(null)
             })
             .catch((error) => {
+                console.log(error);
                 api.error({
                     message: error?.data?.message,
-                    description: 'Password Changed Failed',
+                    description: 'Image Upload Failed',
                     placement: 'topRight',
                 });
             })
     };
+    const profilePicUrl = profilePic
+        ? URL.createObjectURL(profilePic)
+        : data?.data?.profile_image
+            ? `https://backend.alansarilaw.com${data.data.profile_image}`
+            : null;
 
-    const profilePicUrl = profilePic ? URL.createObjectURL(profilePic ? profilePic : user?.user?.profile_image) : null;
     const handleProfilePicUpload = (e: any) => {
         setProfilePic(e.file);
     };
@@ -77,7 +82,7 @@ const Profile: React.FC = () => {
                             </Upload>
                         </div>
                         <div>
-                            <p className="text-xl md:text-2xl text-black font-bold capitalize">{user?.user?.name}</p>
+                            <p className="text-xl md:text-2xl text-black font-bold capitalize">{data?.data?.name}</p>
                             <p className="text-sm text-black font-semibold">Super Admin</p>
                             {profilePic && (
                                 <button
@@ -85,7 +90,7 @@ const Profile: React.FC = () => {
                                     disabled={isLoading}
                                     className=" bg-primaryColor cursor-pointer text-primary rounded-md mt-4 px-2 py-1"
                                 >
-                                    Upload Image
+                                    {isLoading ? "Loading..." : "Upload Image"}
                                 </button>
                             )}
                         </div>

@@ -41,7 +41,7 @@ function ViewDetails() {
                         <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-6 sm:space-y-0 sm:space-x-8 mb-8">
                             <div className="flex-shrink-0">
                                 <img
-                                    src={`http://10.0.60.118:5006${data?.data?.profile_image}`}
+                                    src={`https://backend.alansarilaw.com${data?.data?.profile_image}`}
                                     alt="Mohammed Al-Ansari"
                                     className=" rounded-lg w-72 h-72 object-cover"
                                 />

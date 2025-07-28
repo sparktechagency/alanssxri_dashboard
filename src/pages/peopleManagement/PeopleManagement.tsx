@@ -66,7 +66,7 @@ const PeopleManagement: React.FC = () => {
             render: (_: any, record: UserData) =>
                 <div className='flex items-center gap-2 w-[200px]'>
                     <img
-                        src={`http://10.0.60.118:5006${record?.profile_image}`}
+                        src={`https://backend.alansarilaw.com${record?.profile_image}`}
                         alt=""
                         className="w-10 h-10 rounded-full mr-2"
                     />

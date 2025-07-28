@@ -1,7 +1,5 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { ChangeEvent, useState } from "react";
-import { useSelector } from "react-redux";
-import { useEditAdminProfileMutation } from "../../../redux/features/auth/authApi";
+import { ChangeEvent, useEffect, useState } from "react";
+import { useEditAdminProfileMutation, useGetAdminProfileQuery } from "../../../redux/features/auth/authApi";
 import { notification } from "antd";
 
 interface FormData {
@@ -12,16 +10,25 @@ interface FormData {
 }
 
 const EditProfile: React.FC = () => {
-  const user = useSelector((state: any) => state.logInUser)
+  const { data } = useGetAdminProfileQuery(undefined);
   const [api, contextHolder] = notification.useNotification();
   const [editAdminProfile, { isLoading }] = useEditAdminProfileMutation();
 
   const [formRawData, setFormRawData] = useState<FormData>({
-    name: user?.user?.name,
-    email: user?.user?.email,
-    phone_number: user?.user?.phone_number,
-    // contact: ""
+    name: "",
+    email: "",
+    phone_number: "",
   });
+
+  useEffect(() => {
+    if (data?.data) {
+      setFormRawData({
+        name: data.data.name || "",
+        email: data.data.email || "",
+        phone_number: data.data.phone_number || "",
+      });
+    }
+  }, [data]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
