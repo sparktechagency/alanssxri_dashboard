@@ -8,13 +8,13 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-    server: {
+  server: {
     host: '0.0.0.0',
     port: 4173
   },
-    preview: {
+  preview: {
     host: '0.0.0.0',
     port: 5173,
-    allowedHosts: ['dashboard.laeatery.com']
+    allowedHosts: ['https://dashboard.alansarilaw.com', 'https://www.dashboard.alansarilaw.com', 'dashboard.alansarilaw.com'],
   }
 })
