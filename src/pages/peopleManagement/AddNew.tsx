@@ -333,7 +333,7 @@ const AddNew = () => {
                             label="Experience"
                             name="experience"
                             className="w-full"
-                            rules={[{ required: true, message: 'Please input your experience!' }]}>
+                            rules={[{ message: 'Please input your experience!' }]}>
                             <TextArea rows={4} placeholder="Write Here" className="w-full" />
                         </Form.Item>
 
@@ -341,7 +341,7 @@ const AddNew = () => {
                             label="Affiliation"
                             name="affiliation"
                             className="w-full"
-                            rules={[{ required: true, message: 'Please input your affiliation!' }]}>
+                            rules={[{ message: 'Please input your affiliation!' }]}>
                             <Input placeholder="Input Here" className="w-full" />
                         </Form.Item>
 
@@ -351,7 +351,7 @@ const AddNew = () => {
                                 label="Facebook"
                                 name="facebook"
                                 className="w-full"
-                                rules={[{ required: true, message: 'Please input your Facebook link!' }]}>
+                                rules={[{ message: 'Please input your Facebook link!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
 
@@ -359,7 +359,7 @@ const AddNew = () => {
                                 label="Twitter"
                                 name="twitter"
                                 className="w-full"
-                                rules={[{ required: true, message: 'Please input your Twitter link!' }]}>
+                                rules={[{ message: 'Please input your Twitter link!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
                         </div>
@@ -368,7 +368,7 @@ const AddNew = () => {
                                 label="Instagram"
                                 name="instagram"
                                 className="w-full"
-                                rules={[{ required: true, message: 'Please input your Instagram link!' }]}>
+                                rules={[{ message: 'Please input your Instagram link!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
 
@@ -376,7 +376,7 @@ const AddNew = () => {
                                 label="LinkedIn"
                                 name="linkedin"
                                 className="w-full"
-                                rules={[{ required: true, message: 'Please input your LinkedIn link!' }]}>
+                                rules={[{ message: 'Please input your LinkedIn link!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
                         </div>
