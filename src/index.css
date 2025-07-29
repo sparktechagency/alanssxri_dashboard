@@ -56,3 +56,8 @@
 :where(.css-dev-only-do-not-override-1ymnd5m).ant-menu-light.ant-menu-root.ant-menu {
     border-inline-end: none !important;
 }
+
+/* remove requiered red star */
+.ant-form-item .ant-form-item-label > label.ant-form-item-required::before {
+  display: none !important;
+}
