@@ -97,7 +97,7 @@ const EditNewslettersModal = ({ isModalOpen, handleOk, handleCancel, newsletters
                     label="Upload Image"
                     valuePropName="fileList"
                     getValueFromEvent={(e: any) => e?.fileList}
-                    rules={[{ message: "Please upload the image!" }]}
+                    // rules={[{ message: "Please upload the image!" }]}
                 >
                     <Upload
                         name="Image"

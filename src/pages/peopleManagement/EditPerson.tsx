@@ -12,11 +12,10 @@ const EditPerson = () => {
     const navigate = useNavigate();
     const [form] = Form.useForm();
     const [api, contextHolder] = notification.useNotification();
-    const profilePicUrl = profilePic ? URL.createObjectURL(profilePic) : null;
     const handleProfilePicUpload = (e: any) => {
         setProfilePic(e.file);
     };
-    
+
     type FieldType = {
         category?: string;
         fullName?: string;
@@ -42,6 +41,14 @@ const EditPerson = () => {
     const { data } = useGetSinglePeopleManagementQuery(id);
     console.log(data?.data);
     const [updatePeopleManagement] = useUpdatePeopleManagementMutation()
+
+    // const profilePicUrl = profilePic ? URL.createObjectURL(profilePic) : null;
+
+    const profilePicUrl = profilePic
+        ? URL.createObjectURL(profilePic)
+        : data?.data?.profile_image
+            ? `https://backend.alansarilaw.com${data?.data?.profile_image}`
+            : null;
 
     useEffect(() => {
         if (data?.data) {
@@ -360,7 +367,7 @@ const EditPerson = () => {
                             label="Experience"
                             name="experience"
                             className="w-full"
-                            rules={[{ required: true, message: 'Please input your experience!' }]}>
+                            rules={[{ message: 'Please input your experience!' }]}>
                             <TextArea rows={4} placeholder="Write Here" className="w-full" />
                         </Form.Item>
 
@@ -368,7 +375,7 @@ const EditPerson = () => {
                             label="Affiliation"
                             name="affiliation"
                             className="w-full"
-                            rules={[{ required: true, message: 'Please input your affiliation!' }]}>
+                            rules={[{ message: 'Please input your affiliation!' }]}>
                             <Input placeholder="Input Here" className="w-full" />
                         </Form.Item>
 
@@ -378,7 +385,7 @@ const EditPerson = () => {
                                 label="Facebook"
                                 name="facebook"
                                 className="w-full"
-                                rules={[{ required: true, message: 'Please input your Facebook link!' }]}>
+                                rules={[{ message: 'Please input your Facebook link!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
 
@@ -386,7 +393,7 @@ const EditPerson = () => {
                                 label="Twitter"
                                 name="twitter"
                                 className="w-full"
-                                rules={[{ required: true, message: 'Please input your Twitter link!' }]}>
+                                rules={[{ message: 'Please input your Twitter link!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
                         </div>
@@ -395,7 +402,7 @@ const EditPerson = () => {
                                 label="Instagram"
                                 name="instagram"
                                 className="w-full"
-                                rules={[{ required: true, message: 'Please input your Instagram link!' }]}>
+                                rules={[{ message: 'Please input your Instagram link!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
 
@@ -403,7 +410,7 @@ const EditPerson = () => {
                                 label="LinkedIn"
                                 name="linkedin"
                                 className="w-full"
-                                rules={[{ required: true, message: 'Please input your LinkedIn link!' }]}>
+                                rules={[{ message: 'Please input your LinkedIn link!' }]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
                         </div>
