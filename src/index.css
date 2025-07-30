@@ -39,8 +39,8 @@
 
 /* Submenu item height customization */
 .custom-menu .ant-menu-submenu .ant-menu-item {
-  height: 35px !important;
-  line-height: 35px !important;
+  height: 30px !important;
+  line-height: 30px !important;
 }
 
 /* Submenu item color customization */

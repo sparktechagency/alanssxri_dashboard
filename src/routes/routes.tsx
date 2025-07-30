@@ -23,6 +23,9 @@ import CSR from '../pages/about/CSR/CSR';
 import FraudAlert from '../pages/settings/fraud-alert/FraudAlert';
 import Disclaimer from '../pages/settings/disclaimer/disclaimer';
 import PrivateRoute from './PrivateRoute';
+import AllContact from '../pages/about/AllContact/AllContact';
+import Subscribe from '../pages/about/Subscribe/Subscribe';
+import AboutContent from '../pages/about/AboutContent/AboutContent';
 
 
 const router = createBrowserRouter([
@@ -77,6 +80,18 @@ const router = createBrowserRouter([
             {
                 path: "/about/csr",
                 element: <CSR></CSR>
+            },
+            {
+                path: "/about/all-contact",
+                element: <AllContact></AllContact>
+            },
+            {
+                path: "/about/subscribers",
+                element: <Subscribe></Subscribe>
+            },
+            {
+                path: "/about/about-content",
+                element: <AboutContent></AboutContent>
             },
             {
                 path: "/settings/profile",
