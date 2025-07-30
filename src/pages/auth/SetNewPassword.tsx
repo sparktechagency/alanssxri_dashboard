@@ -9,6 +9,7 @@ interface SetNewPasswordFormValues {
 
 const SetNewPassword: React.FC = () => {
     const [form] = Form.useForm();
+    const [api, contextHolder] = notification.useNotification();
     //   const [isLoading, setIsLoading] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -36,7 +37,8 @@ const SetNewPassword: React.FC = () => {
                 }
             ).unwrap()
                 .then(() => {
-                    notification.success({
+                    api.open({
+                        type: 'success',
                         message: 'New Password Set',
                         description: 'The new password has been set successfully!',
                         placement: 'topRight',
@@ -44,7 +46,12 @@ const SetNewPassword: React.FC = () => {
                     navigate(`/auth/login`)
                 })
                 .catch((error) => {
-                    message.error(error?.data?.error)
+                    api.open({
+                        type: 'error',
+                        message: error?.data?.message,
+                        description: 'Login failed. Please try again.',
+                        placement: 'topRight',
+                    });
                 })
         }
 
@@ -52,6 +59,7 @@ const SetNewPassword: React.FC = () => {
 
     return (
         <div className="h-screen bg-barColor">
+            {contextHolder}
             <div className="bg-primary py-14 h-full">
                 <div className="relative z-10 flex items-center justify-center h-full px-3 text-white">
                     <div className="bg-[#ffffff] text-black overflow-hidden shadow-lg w-full md:max-w-[500px] rounded-lg">
@@ -96,14 +104,14 @@ const SetNewPassword: React.FC = () => {
 
                                 <Form.Item className="text-center mt-6">
                                     {/* <Link to={"/auth/login"}> */}
-                                        <button
-                                            type="submit"
-                                            // disabled={isLoading}
-                                            className="bg-primary w-full bg-primaryColor cursor-pointer  mt-10 text-white px-18 rounded py-[6px] text-lg"
-                                        >
-                                            {/* Submit {isLoading && <Spin />} */}
-                                            {isLoading ? "Loading..." : "Submit"}
-                                        </button>
+                                    <button
+                                        type="submit"
+                                        // disabled={isLoading}
+                                        className="bg-primary w-full bg-primaryColor cursor-pointer  mt-10 text-white px-18 rounded py-[6px] text-lg"
+                                    >
+                                        {/* Submit {isLoading && <Spin />} */}
+                                        {isLoading ? "Loading..." : "Submit"}
+                                    </button>
                                     {/* </Link> */}
                                 </Form.Item>
                             </Form>

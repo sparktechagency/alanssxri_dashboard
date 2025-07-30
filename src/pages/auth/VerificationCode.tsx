@@ -2,13 +2,13 @@ import { useState } from "react";
 import OtpInput from "react-otp-input";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useVerifyEmailMutation } from "../../redux/features/auth/authApi";
-import { message } from "antd";
+import { notification } from "antd";
 
 const VerificationCode: React.FC = () => {
+    const [api, contextHolder] = notification.useNotification();
     const [otp, setOtp] = useState<string>("");
     const [searchParams] = useSearchParams();
     const email: string | null = searchParams.get("email");
-    console.log(email);
     const navigate = useNavigate();
 
     const [verifyEmail, { isLoading }] = useVerifyEmailMutation();
@@ -19,17 +19,27 @@ const VerificationCode: React.FC = () => {
             code: otp
         }).unwrap()
             .then(() => {
-                message.success(`Verify OTP Successfuly!`)
+                api.open({
+                    type: 'success',
+                    message: 'Verify OTP',
+                    description: 'Verify OTP Successfuly!',
+                    placement: 'topRight',
+                });
                 navigate(`/auth/set-new-password?email=${email}`)
             })
             .catch((error) => {
-                message.error(error?.data?.error)
-
+                api.open({
+                    type: 'error',
+                    message: error?.data?.message || 'Verification failed',
+                    description: 'Please try again.',
+                    placement: 'topRight',
+                });
             })
     };
 
     return (
         <div className="h-screen bg-barColor">
+            {contextHolder}
             {/* Background Image */}
             <div className="bg-primary py-14 h-full">
                 {/* Form Container */}
@@ -41,10 +51,10 @@ const VerificationCode: React.FC = () => {
                                 <h1 className="text-2xl md:text-3xl font-semibold mt-6 mb-5">
                                     Check Your Email
                                 </h1>
-                                <p className=" mb-8 px-2 md:px-10">
-                                    We sent a reset link to contact@dscode...com
-                                    enter 5 digit code that mentioned in the email
-                                </p>
+                                <div className=" mb-8 px-2 md:px-10">
+                                    <p>We sent a reset link to {email} </p>
+                                    <p>enter 6 digit code that mentioned in the email</p>
+                                </div>
                             </div>
 
                             <div className="flex justify-center">
@@ -86,7 +96,7 @@ const VerificationCode: React.FC = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

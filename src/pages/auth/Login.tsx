@@ -42,14 +42,12 @@ const LogIn: FC = () => {
             })
             
             .catch((error) => {
-                console.log(error);
                 api.open({
                     type: 'error',
                     message: error?.data?.message,
                     description: 'Login failed. Please try again.',
                     placement: 'topRight',
                 });
-
             })
     };
 
