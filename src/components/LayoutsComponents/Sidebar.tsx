@@ -56,6 +56,9 @@ const items: any[] = [
       { key: "5-1", label: <Link to={`/about/about-us`}>About Us</Link> },
       { key: "5-2", label: <Link to={`/about/awards`}>Awards</Link> },
       { key: "5-3", label: <Link to={`/about/csr`}>CSR</Link> },
+      { key: "5-4", label: <Link to={`/about/all-contact`}>All Contact</Link> },
+      { key: "5-5", label: <Link to={`/about/subscribers`}>Subscribers</Link> },
+      { key: "5-6", label: <Link to={`/about/about-content`}>AboutContent</Link> },
     ]
   },
   {
@@ -120,7 +123,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
   return (
     <div className='fixed top-0 left-0 bottom-0 bg-[#fefefe]'>
       <Sider className='h-[100vh] w-[300px] bg-[#fefefe]' width={250} collapsedWidth={80} trigger={null} collapsible collapsed={collapsed}>
-        <div className='flex justify-center items-center py-7'>
+        <div className='flex justify-center items-center pt-6 pb-3'>
           <img src={logo} className='w-24' />
         </div>
 
@@ -136,10 +139,10 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed }) => {
 
       <div className="flex justify-center items-center relative">
         {/* <Link to="/auth/login" className="w-full flex justify-center"> */}
-          <div onClick={handleLogOut} className="absolute bottom-12 w-[80%] py-2 bg-barColor hover:bg-[#f5edd9] shadow-md rounded-lg flex justify-center items-center gap-3 cursor-pointer transition-all duration-200">
-            <CiLogout className="w-6 h-6 text-[#222]" />
-            <p className="text-base font-medium text-[#222]">Log Out</p>
-          </div>
+        <div onClick={handleLogOut} className="absolute bottom-12 w-[80%] py-2 bg-barColor hover:bg-[#f5edd9] shadow-md rounded-lg flex justify-center items-center gap-3 cursor-pointer transition-all duration-200">
+          <CiLogout className="w-6 h-6 text-[#222]" />
+          <p className="text-base font-medium text-[#222]">Log Out</p>
+        </div>
         {/* </Link> */}
       </div>
     </div>
