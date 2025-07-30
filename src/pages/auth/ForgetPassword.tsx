@@ -7,7 +7,7 @@ interface ForgotPasswordFormValues {
     email: string;
 }
 const ForgotPassword: React.FC = () => {
-
+    const [api, contextHolder] = notification.useNotification();
     const [forgetPassword, { isLoading }] = useForgetPasswordMutation();
     const navigate = useNavigate();
     const onFinish: FormProps<ForgotPasswordFormValues>["onFinish"] = (values) => {
@@ -15,7 +15,8 @@ const ForgotPassword: React.FC = () => {
             email: values.email
         }).unwrap()
             .then(() => {
-                notification.success({
+                api.open({
+                    type: 'success',
                     message: 'OTP Sent',
                     description: 'The OTP has been sent to your email successfully!',
                     placement: 'topRight',
@@ -23,9 +24,10 @@ const ForgotPassword: React.FC = () => {
                 navigate(`/auth/verification-code?email=${values.email}`)
             })
             .catch((error) => {
-                notification.error({
-                    message: 'Error',
-                    description: error?.data?.message || 'Something went wrong. Please try again.',
+                api.open({
+                    type: 'error',
+                    message: error?.data?.message,
+                    description: 'Something went wrong. Please try again.',
                     placement: 'topRight',
                 });
             });
@@ -34,6 +36,7 @@ const ForgotPassword: React.FC = () => {
 
     return (
         <div className="h-screen bg-barColor">
+            {contextHolder}
             <div className="bg-primary py-12 h-full">
                 <div className="relative z-10 flex items-center justify-center h-full px-3 text-white">
                     <div className="bg-[#ffffff] text-black overflow-hidden shadow-lg w-full md:max-w-[500px] rounded-lg">
