@@ -65,7 +65,7 @@ const HomePageContent = () => {
         <div className="bg-white p-5 rounded-lg shadow-md mb-6">
             {contextHolder}
             <div className="flex justify-between items-center">
-                <h2 className="text-xl font-semibold">Home Page Content</h2>
+                <h2 className="text-xl font-semibold mb-4">Home Page Content</h2>
             </div>
             <div className=" flex gap-10 items-center">
 
