@@ -71,6 +71,7 @@ const items: any[] = [
       { key: "7-4", label: <Link to={`/settings/terms-and-condtion`}>Terms And Condition</Link> },
       { key: "7-5", label: <Link to={`/settings/fraud-alert`}>Fraud Alert</Link> },
       { key: "7-6", label: <Link to={`/settings/disclaimer`}>Disclaimer</Link> },
+      { key: "7-7", label: <Link to={`/settings/social-media`}>Social Media</Link> },
     ]
   }
 ];

@@ -81,6 +81,22 @@ const authApi = baseApi.injectEndpoints({
             }),
         }),
 
+        getSocialMedia: builder.query({
+            query: () => ({
+                url: `/dashboard/social_media`,
+                method: 'GET',
+            }),
+            providesTags: ['SocialMedia'],
+        }),
+
+        updateSocialMedia: builder.mutation({
+            query: (data) => ({
+                url: '/dashboard/social_media',
+                method: 'POST',
+                body: data,
+            }),
+            invalidatesTags: ['SocialMedia'],
+        }),
     }),
 });
 
@@ -95,4 +111,6 @@ export const {
     useGetAboutUsQuery,
     useUpdateFraudMutation,
     useGetFraudQuery,
+    useGetSocialMediaQuery,
+    useUpdateSocialMediaMutation,
 } = authApi;
