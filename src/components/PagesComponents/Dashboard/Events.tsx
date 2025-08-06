@@ -99,7 +99,7 @@ const Events = () => {
     ];
 
     return (
-        <div className="bg-white p-5 rounded-lg  shadow-md">
+        <div className="bg-white p-5 rounded-lg shadow-md mb-6">
             {contextHolder}
             <div className=" flex justify-between items-center">
                 <h2 className=" text-xl font-semibold">Events</h2>
