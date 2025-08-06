@@ -5,6 +5,7 @@ import TotalNewsletters from '../../assets/dashboard/TotalNewsletters.svg'
 import Updates from '../../components/PagesComponents/Dashboard/Updates';
 import Events from '../../components/PagesComponents/Dashboard/Events';
 import { useGetDashboardTotalCountQuery } from '../../redux/features/dashboard/dashboardApi';
+import HomePageContent from '../../components/PagesComponents/Dashboard/HomePageContent';
 
 
 const Dashboard = () => {
@@ -41,6 +42,7 @@ const Dashboard = () => {
             <div>
                 <Updates></Updates>
                 <Events></Events>
+                <HomePageContent></HomePageContent>
             </div>
         </div>
     );

@@ -26,6 +26,7 @@ import PrivateRoute from './PrivateRoute';
 import AllContact from '../pages/about/AllContact/AllContact';
 import Subscribe from '../pages/about/Subscribe/Subscribe';
 import AboutContent from '../pages/about/AboutContent/AboutContent';
+import SocialMedia from '../pages/settings/social-media/SocialMedia';
 
 
 const router = createBrowserRouter([
@@ -112,6 +113,10 @@ const router = createBrowserRouter([
             {
                 path: "/settings/disclaimer",
                 element: <Disclaimer></Disclaimer>,
+            },
+            {
+                path: "/settings/social-media",
+                element: <SocialMedia></SocialMedia>,
             },
             {
                 path: "/notification",
