@@ -20,7 +20,8 @@ import { FiPlus } from "react-icons/fi";
 import { MdOutlineModeEdit, MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { useDeletePeopleManagementMutation, useGetAllPeopleManagementQuery, useUpdateOrderPeopleManagementMutation } from "../../redux/features/peopleManagement/peopleManagementApi";
+import { useGetAllPeopleManagementQuery, useUpdateOrderPeopleManagementMutation } from "../../redux/features/peopleManagement/peopleManagementApi";
+// import { notification, Popconfirm } from "antd";
 
 interface UserData {
     _id: number,
@@ -55,9 +56,10 @@ const SortableRow = ({ person, children }: { person: UserData; index: number; ch
 
 const PeopleManagement: React.FC = () => {
     const { data } = useGetAllPeopleManagementQuery(undefined);
-    const [deletePeopleManagement] = useDeletePeopleManagementMutation();
-    const [updateOrderPeopleManagement] = useUpdateOrderPeopleManagementMutation();
 
+    // const [deletePeopleManagement] = useDeletePeopleManagementMutation();
+    const [updateOrderPeopleManagement] = useUpdateOrderPeopleManagementMutation();
+    // const [api, contextHolder] = notification.useNotification();
     const [people, setPeople] = useState<UserData[]>([]);
 
     useEffect(() => {
@@ -91,19 +93,29 @@ const PeopleManagement: React.FC = () => {
         }
     };
 
-    const confirmDelete = (id: string) => {
-        deletePeopleManagement(id)
-            .unwrap()
-            .then(() => {
-                alert("Deleted successfully");
-            })
-            .catch(() => {
-                alert("Error deleting person");
-            });
-    };
+    // const confirmDelete = (id: string) => {
+    //     deletePeopleManagement(id)
+    //         .unwrap()
+    //         .then(() => {
+    //             api.success({
+    //                 message: 'People deleted',
+    //                 description: 'Updated Successfully!',
+    //                 placement: 'topRight',
+    //             });
+
+    //         })
+    //         .catch((error) => {
+    //             api.error({
+    //                 message: error?.data?.message,
+    //                 description: 'Error deleting person',
+    //                 placement: 'topRight',
+    //             });
+    //         });
+    // };
 
     return (
         <div className="min-h-screen bg-gray-100 p-5">
+            {/* {contextHolder} */}
             <div className="bg-white p-5 rounded">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-5">
                     <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0">People Management</h2>
@@ -165,12 +177,14 @@ const PeopleManagement: React.FC = () => {
                                                             className="text-white bg-primaryColor rounded p-1.5 cursor-pointer"
                                                         />
                                                     </Link>
-                                                    <button onClick={() => confirmDelete(person?._id.toString())}>
-                                                        <RiDeleteBin6Line
-                                                            size={35}
-                                                            className="text-white bg-red-600 rounded p-1.5 cursor-pointer"
-                                                        />
-                                                    </button>
+                                                    <>
+                                                        <Link to={`/people-management/${person?._id}`}>
+                                                            <RiDeleteBin6Line
+                                                                size={35}
+                                                                className="text-white bg-red-600 rounded p-1.5 cursor-pointer"
+                                                            />
+                                                        </Link>
+                                                    </>
                                                 </div>
                                             </td>
                                         </SortableRow>

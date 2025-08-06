@@ -27,10 +27,10 @@ const EditPerson = () => {
         barAdmission?: string;
         experience?: string;
         affiliation?: string;
-        industry?: string[];
-        practice?: string[];
-        awards?: string[];
-        professional?: string[];
+        industry?: any;
+        practice?: any;
+        awards?: any;
+        professional?: any;
         facebook?: string;
         twitter?: string;
         instagram?: string;
@@ -63,10 +63,10 @@ const EditPerson = () => {
                 barAdmission: data.data.barAdmission,
                 experience: data.data.experience,
                 affiliation: data.data.affiliation,
-                facebook: data.data.facebook,
-                twitter: data.data.twitter,
-                instagram: data.data.instagram,
-                linkedin: data.data.linkedin,
+                facebook: data.data.socialLinks.facebook,
+                twitter: data.data.socialLinks.twitter,
+                instagram: data.data.socialLinks.instagram,
+                linkedin: data.data.socialLinks.linkedin,
                 industry: data.data.industry,
                 practice: data.data.practice,
                 awards: data.data.awards,
@@ -75,8 +75,16 @@ const EditPerson = () => {
         }
     }, [data, form]);
 
+    const emptyArray: any = []
+
     const onFinish = (values: any) => {
         console.log('Form values:', values);
+        // const socialLinks: any = {
+        //     facebook: values.facebook,
+        //     twitter: values.twitter,
+        //     instagram: values.instagram,
+        //     linkedin: values.linkedin
+        // };
         const formData = new FormData();
         // Basic fields
         formData.append("category", values.category);
@@ -89,36 +97,50 @@ const EditPerson = () => {
         formData.append("barAdmission", values.barAdmission);
         formData.append("experience", values.experience);
         formData.append("affiliation", values.affiliation);
+        // formData.append("socialLinks", JSON.stringify(socialLinks));
         formData.append("facebook", values.facebook);
         formData.append("twitter", values.twitter);
         formData.append("instagram", values.instagram);
         formData.append("linkedin", values.linkedin);
-        formData.append("linkedin", values.linkedin);
 
+
+        // Lists (arrays) 
         // Lists (arrays)
-        if (Array.isArray(values.industry)) {
+        console.log(values.industry);
+        if (values.industry.length > 0) {
             values.industry.forEach((item: string, index: number) => {
                 formData.append(`industry[${index}]`, item);
+                console.log('adfasfasfasdfasf inside');
             });
+        } else {
+            formData.append(`industry`, emptyArray);
         }
 
-        if (Array.isArray(values.practice)) {
+        if (values.practice.length > 0) {
             values.practice.forEach((item: string, index: number) => {
                 formData.append(`practice[${index}]`, item);
             });
+
+        } else {
+            formData.append(`practice`, emptyArray);
         }
 
-        if (Array.isArray(values.awards)) {
+        if (values.awards.length > 0) {
             values.awards.forEach((item: string, index: number) => {
                 formData.append(`awards[${index}]`, item);
             });
+        } else {
+            formData.append(`awards`, emptyArray);
         }
 
-        if (Array.isArray(values.professional)) {
+        if (values.professional.length > 0) {
             values.professional.forEach((item: string, index: number) => {
                 formData.append(`professional[${index}]`, item);
             });
+        } else {
+            formData.append(`professional`, emptyArray);
         }
+        console.log(values);
 
         // Profile picture
         if (profilePic) {
@@ -385,7 +407,12 @@ const EditPerson = () => {
                                 label="Facebook"
                                 name="facebook"
                                 className="w-full"
-                                rules={[{ message: 'Please input your Facebook link!' }]}>
+                                rules={[
+                                    {
+                                        pattern: /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/,
+                                        message: 'Please input a valid Facebook link!',
+                                    },
+                                ]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
 
@@ -393,7 +420,12 @@ const EditPerson = () => {
                                 label="Twitter"
                                 name="twitter"
                                 className="w-full"
-                                rules={[{ message: 'Please input your Twitter link!' }]}>
+                                rules={[
+                                    {
+                                        pattern: /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/,
+                                        message: 'Please input a valid Twitter link!',
+                                    },
+                                ]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
                         </div>
@@ -402,7 +434,12 @@ const EditPerson = () => {
                                 label="Instagram"
                                 name="instagram"
                                 className="w-full"
-                                rules={[{ message: 'Please input your Instagram link!' }]}>
+                                rules={[
+                                    {
+                                        pattern: /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/,
+                                        message: 'Please input a valid Instagram link!',
+                                    },
+                                ]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
 
@@ -410,7 +447,12 @@ const EditPerson = () => {
                                 label="LinkedIn"
                                 name="linkedin"
                                 className="w-full"
-                                rules={[{ message: 'Please input your LinkedIn link!' }]}>
+                                rules={[
+                                    {
+                                        pattern: /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/,
+                                        message: 'Please input a valid LinkedIn link!',
+                                    },
+                                ]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
                         </div>

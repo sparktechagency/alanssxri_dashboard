@@ -1,7 +1,7 @@
 import { FaInstagram, FaXTwitter } from "react-icons/fa6";
 import { IoMdArrowBack } from "react-icons/io";
 import { MdLocalPhone, MdMailOutline } from "react-icons/md";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { SlSocialFacebook } from "react-icons/sl";
 import { LiaLinkedinIn } from "react-icons/lia";
 import { useGetSinglePeopleManagementQuery } from "../../redux/features/peopleManagement/peopleManagementApi";
@@ -12,9 +12,7 @@ function ViewDetails() {
     const navigate = useNavigate();
     const { id } = useParams();
     const { data, isLoading } = useGetSinglePeopleManagementQuery(id);
-
-    console.log('data', data?.data);
-
+    console.log(data?.data?.socialLinks);
     const colorClasses = [
         "bg-blue-100 text-blue-800",
         "bg-green-100 text-green-800",
@@ -24,7 +22,7 @@ function ViewDetails() {
         "bg-indigo-100 text-indigo-800",
     ];
 
-
+    console.log(data?.data?.socialLinks?.facebook);
     return (
         <div className=" min-h-screen">
             {isLoading ?
@@ -70,18 +68,18 @@ function ViewDetails() {
                                 {/* Social Media Links */}
                                 <h2 className="text-lg font-semibold text-gray-700 mb-3">Social Media Links</h2>
                                 <div className="flex justify-center sm:justify-start">
-                                    <a href="#" className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors">
+                                    <Link to={data?.data?.socialLinks?.facebook} className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors">
                                         <SlSocialFacebook size={40} className=" border border-primaryColor text-primaryColor rounded-full p-2" />
-                                    </a>
-                                    <a href="#" className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors">
+                                    </Link>
+                                    <Link to={data?.data?.socialLinks?.twitter} className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors">
                                         <FaXTwitter size={40} className=" border border-primaryColor text-primaryColor rounded-full p-2" />
-                                    </a>
-                                    <a href="#" className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors">
+                                    </Link>
+                                    <Link to={data?.data?.socialLinks?.instagram} className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors">
                                         <FaInstagram size={40} className=" border border-primaryColor text-primaryColor rounded-full p-2" />
-                                    </a>
-                                    <a href="#" className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors">
+                                    </Link>
+                                    <Link to={data?.data?.socialLinks?.linkedin} className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors">
                                         <LiaLinkedinIn size={42} className=" border border-primaryColor text-primaryColor rounded-full p-2" />
-                                    </a>
+                                    </Link>
                                     {/* <a href="#" className="p-2 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors">
                                 <FaXTwitter className="w-5 h-5 text-gray-600" />
                             </a>
