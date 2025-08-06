@@ -58,7 +58,7 @@ const items: any[] = [
       { key: "5-3", label: <Link to={`/about/csr`}>CSR</Link> },
       { key: "5-4", label: <Link to={`/about/all-contact`}>All Contact</Link> },
       { key: "5-5", label: <Link to={`/about/subscribers`}>Subscribers</Link> },
-      { key: "5-6", label: <Link to={`/about/about-content`}>AboutContent</Link> },
+      { key: "5-6", label: <Link to={`/about/about-content`}>About Us Content</Link> },
     ]
   },
   {

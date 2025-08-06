@@ -1,12 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { notification, Popconfirm, Table } from "antd";
-// import { useState } from "react";
-// import { CiSearch } from "react-icons/ci";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+    DndContext,
+    closestCenter,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors
+} from "@dnd-kit/core";
+import {
+    arrayMove,
+    SortableContext,
+    useSortable,
+    verticalListSortingStrategy
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { useState, useEffect } from "react";
 import { FiPlus } from "react-icons/fi";
 import { MdOutlineModeEdit, MdOutlineRemoveRedEye } from "react-icons/md";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { useDeletePeopleManagementMutation, useGetAllPeopleManagementQuery } from "../../redux/features/peopleManagement/peopleManagementApi";
+import { useDeletePeopleManagementMutation, useGetAllPeopleManagementQuery, useUpdateOrderPeopleManagementMutation } from "../../redux/features/peopleManagement/peopleManagementApi";
 
 interface UserData {
     _id: number,
@@ -17,147 +31,162 @@ interface UserData {
     phoneNumber: string
 }
 
+// Sortable row wrapper
+const SortableRow = ({ person, index, children }: { person: UserData; index: number; children: React.ReactNode }) => {
+    const {
+        attributes,
+        listeners,
+        setNodeRef,
+        transform,
+        transition
+    } = useSortable({ id: person._id });
+
+    const style = {
+        transform: CSS.Transform.toString(transform),
+        transition,
+    };
+
+    return (
+        <tr ref={setNodeRef} style={style} {...attributes} {...listeners} className="hover:bg-gray-50 cursor-move">
+            {children}
+        </tr>
+    );
+};
 
 const PeopleManagement: React.FC = () => {
-    // const [currentPage, setCurrentPage] = useState<number>(1);
-    const [api, contextHolder] = notification.useNotification();
-    // const pageSize = 10;
-    // const handlePageChange = (page: number) => {
-    //     setCurrentPage(page);
-    // };
-
     const { data } = useGetAllPeopleManagementQuery(undefined);
-    console.log(data?.data);
-
-    // const onFinish = (values: any): void => {
-    //     console.log(values);
-    // };
     const [deletePeopleManagement] = useDeletePeopleManagementMutation();
+    const [updateOrderPeopleManagement] = useUpdateOrderPeopleManagementMutation();
 
-    const confirm = (id: string) => {
+    const [people, setPeople] = useState<UserData[]>([]);
+
+    useEffect(() => {
+        if (data?.data) {
+            setPeople(data.data);
+        }
+    }, [data]);
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor)
+    );
+
+    const handleDragEnd = (event: any) => {
+        const { active, over } = event;
+        // console.log("active:", active, "over:", over?.data?.current?.sortable?.items);
+
+        if (active.id !== over?.id) {
+            const oldIndex = people.findIndex(p => p._id === active.id);
+            const newIndex = people.findIndex(p => p._id === over?.id);
+            // setPeople(prev => arrayMove(prev, oldIndex, newIndex));
+            const newPeople = arrayMove(people, oldIndex, newIndex);
+            setPeople(newPeople);
+            const orderedIds = newPeople.map(p => p._id);
+            console.log(newPeople);
+            const data = {
+                peopleIds: orderedIds
+            }
+            console.log(data);
+            updateOrderPeopleManagement(data)
+        }
+    };
+
+    const confirmDelete = (id: string) => {
         deletePeopleManagement(id)
             .unwrap()
             .then(() => {
-                api.success({
-                    message: "People Deleted Successfully!",
-                    description: "People Deleted.",
-                    placement: "topRight",
-                });;
+                alert("Deleted successfully");
             })
-            .catch((error) => {
-                api.error({
-                    message: error?.data?.message || "Deletion failed",
-                    description: "Something went wrong!",
-                    placement: "topRight",
-                });
+            .catch(() => {
+                alert("Error deleting person");
             });
     };
 
-    // Define columns with types
-    const columns = [
-        {
-            title: "S No.",
-            dataIndex: "id",
-            render: (index: number) => <span>{index + 1}</span>,
-        },
-        {
-            title: "Name",
-            dataIndex: "fullName",
-            render: (_: any, record: UserData) =>
-                <div className='flex items-center gap-2 w-[200px]'>
-                    <img
-                        src={`https://backend.alansarilaw.com${record?.profile_image}`}
-                        alt=""
-                        className="w-10 h-10 rounded-full mr-2"
-                    />
-                    <div>
-                        <span>{record?.fullName}</span>
-                    </div>
-                </div>,
-        },
-        {
-            title: "Position",
-            dataIndex: "position",
-            render: (_: any, record: UserData) => <span>{record?.position}</span>,
-        },
-        {
-            title: "Email",
-            dataIndex: "email",
-            render: (_: any, record: UserData) => <span>{record?.email}</span>,
-        },
-        {
-            title: "Contact Number",
-            dataIndex: "phone",
-            render: (_: any, record: UserData) => <span>{record?.phoneNumber}</span>,
-        },
-        {
-            title: "Details",
-            render: (record: UserData) => (
-                <div className="">
-                    <Link to={`/people-management/view-details/${record?._id}`}>
-                        <MdOutlineRemoveRedEye size={40} className="text-white bg-[#386e93] rounded p-2 cursor-pointer" />
-                    </Link>
-                </div >
-            ),
-        },
-        {
-            title: "Action",
-            render: (record: any) => (
-                <div className="">
-                    <div className="flex items-center gap-3">
-
-                        <Link to={`/people-management/edit-person/${record?._id}`}><MdOutlineModeEdit size={40} className="text-white bg-primaryColor rounded p-2 cursor-pointer" /></Link>
-                        <Popconfirm
-                            title="Delete the people"
-                            description="Are you sure to delete this people?"
-                            onConfirm={() => confirm(record?._id)}
-                            okText="Yes"
-                            cancelText="No"
-                        >
-                            <RiDeleteBin6Line size={40} className="text-white bg-red-600 rounded p-2 cursor-pointer" />
-                        </Popconfirm>
-
-                    </div>
-                </div>
-            ),
-        },
-    ];
-
-
     return (
-        <div className="  min-h-[100vh] ">
-            {contextHolder}
+        <div className="min-h-screen bg-gray-100 p-5">
             <div className="bg-white p-5 rounded">
                 <div className="flex flex-col md:flex-row md:justify-between md:items-center mt-5">
-                    <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0 ">People Management</h2>
-                    {/* <div className=" w-[250px]">
-                        <Input prefix={<CiSearch className=" w-6 h-6" />} className="w-[250px]" placeholder="Search" />
-                    </div> */}
+                    <h2 className="text-md md:text-xl font-semibold mb-5 md:mb-0">People Management</h2>
                 </div>
+
                 <div>
-                    <Link to={`/people-management/add-new`}><button className=" bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2"><FiPlus size={20} /> Add New</button></Link>
+                    <Link to={`/people-management/add-new`}>
+                        <button className="bg-primaryColor rounded px-5 py-2 text-white flex items-center gap-2 cursor-pointer my-2">
+                            <FiPlus size={20} /> Add New
+                        </button>
+                    </Link>
                 </div>
 
-                <Table
-                    columns={columns}
-                    className="mt-5 overflow-x-scroll xl:overflow-auto bg-white rounded-lg"
-                    dataSource={data?.data}
-                    pagination={false}
-                    rowKey="_id"
-                />
-                {/* <div className=" mt-8 flex flex-col md:flex-row justify-between items-center">
-                    <div>
-                        <p className=" text-lg text-black mb-5 md:mb-0">Showing 1-11 out of  1239</p>
-                    </div>
-
-                    <Pagination
-                        current={currentPage}
-                        pageSize={pageSize}
-                        total={50}
-                        onChange={handlePageChange}
-                    />
-
-                </div> */}
+                <div className="overflow-auto">
+                    <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                        <SortableContext items={people?.map(p => p?._id)} strategy={verticalListSortingStrategy}>
+                            <table className="min-w-full bg-white rounded-lg mt-5 text-left">
+                                <thead className="bg-gray-100 text-gray-700">
+                                    <tr>
+                                        <th className="px-4 py-4">S No.</th>
+                                        <th className="px-4 py-4">Name</th>
+                                        <th className="px-4 py-4">Position</th>
+                                        <th className="px-4 py-4">Email</th>
+                                        <th className="px-4 py-4">Contact Number</th>
+                                        <th className="px-4 py-4">Details</th>
+                                        <th className="px-4 py-4">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {people?.map((person, index) => (
+                                        <SortableRow key={person?._id} person={person} index={index}>
+                                            <td className="px-4 py-2">{index + 1}</td>
+                                            <td className="px-4 py-2">
+                                                <div className="flex items-center gap-2">
+                                                    <img
+                                                        src={`https://backend.alansarilaw.com${person?.profile_image}`}
+                                                        alt="Profile"
+                                                        className="w-12 h-12 rounded-full object-cover"
+                                                    />
+                                                    <span>{person?.fullName}</span>
+                                                </div>
+                                            </td>
+                                            <td className="px-4 py-6">{person?.position}</td>
+                                            <td className="px-4 py-6">{person?.email}</td>
+                                            <td className="px-4 py-6">{person?.phoneNumber}</td>
+                                            <td className="px-4 py-6">
+                                                <Link to={`/people-management/view-details/${person?._id}`}>
+                                                    <MdOutlineRemoveRedEye
+                                                        size={35}
+                                                        className="text-white bg-[#386e93] rounded p-1.5 cursor-pointer"
+                                                    />
+                                                </Link>
+                                            </td>
+                                            <td className="px-4 py-2">
+                                                <div className="flex gap-3">
+                                                    <Link to={`/people-management/edit-person/${person?._id}`}>
+                                                        <MdOutlineModeEdit
+                                                            size={35}
+                                                            className="text-white bg-primaryColor rounded p-1.5 cursor-pointer"
+                                                        />
+                                                    </Link>
+                                                    <button onClick={() => confirmDelete(person?._id.toString())}>
+                                                        <RiDeleteBin6Line
+                                                            size={35}
+                                                            className="text-white bg-red-600 rounded p-1.5 cursor-pointer"
+                                                        />
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </SortableRow>
+                                    ))}
+                                    {people?.length === 0 && (
+                                        <tr>
+                                            <td colSpan={7} className="text-center py-4 text-gray-500">
+                                                No data found.
+                                            </td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </SortableContext>
+                    </DndContext>
+                </div>
             </div>
         </div>
     );

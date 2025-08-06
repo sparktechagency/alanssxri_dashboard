@@ -37,6 +37,15 @@ const peopleManagementApi = baseApi.injectEndpoints({
             invalidatesTags: ["peopleManagement"]
         }),
 
+        updateOrderPeopleManagement: builder.mutation({
+            query: (data) => ({
+                url: `/dashboard/person_update_order_id`,
+                method: 'PUT',
+                body: data,
+            }),
+            invalidatesTags: ["peopleManagement"]
+        }),
+
         deletePeopleManagement: builder.mutation({
             query: (id) => ({
                 url: `/dashboard/person/${id}`,
@@ -52,5 +61,6 @@ export const {
     useGetSinglePeopleManagementQuery,
     useCreatePeopleManagementMutation,
     useUpdatePeopleManagementMutation,
-    useDeletePeopleManagementMutation
+    useUpdateOrderPeopleManagementMutation,
+    useDeletePeopleManagementMutation,
 } = peopleManagementApi;
