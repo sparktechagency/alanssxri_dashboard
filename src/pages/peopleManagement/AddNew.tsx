@@ -42,6 +42,12 @@ const AddNew = () => {
 
     const onFinish = (values: any) => {
         console.log('Form values:', values);
+        // const socialLinks: any = {
+        //     facebook: values.facebook,
+        //     twitter: values.twitter,
+        //     instagram: values.instagram,
+        //     linkedin: values.linkedin
+        // };
         const formData = new FormData();
         // Basic fields
         formData.append("category", values.category);
@@ -54,10 +60,10 @@ const AddNew = () => {
         formData.append("barAdmission", values.barAdmission);
         formData.append("experience", values.experience);
         formData.append("affiliation", values.affiliation);
+        // formData.append("socialLinks", JSON.stringify(socialLinks));
         formData.append("facebook", values.facebook);
         formData.append("twitter", values.twitter);
         formData.append("instagram", values.instagram);
-        formData.append("linkedin", values.linkedin);
         formData.append("linkedin", values.linkedin);
 
         // Lists (arrays)
@@ -351,7 +357,12 @@ const AddNew = () => {
                                 label="Facebook"
                                 name="facebook"
                                 className="w-full"
-                                rules={[{ message: 'Please input your Facebook link!' }]}>
+                                rules={[
+                                    {
+                                        pattern: /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/,
+                                        message: 'Please input a valid Facebook link!',
+                                    },
+                                ]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
 
@@ -359,7 +370,12 @@ const AddNew = () => {
                                 label="Twitter"
                                 name="twitter"
                                 className="w-full"
-                                rules={[{ message: 'Please input your Twitter link!' }]}>
+                                rules={[
+                                    {
+                                        pattern: /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/,
+                                        message: 'Please input a valid Twitter link!',
+                                    },
+                                ]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
                         </div>
@@ -368,7 +384,12 @@ const AddNew = () => {
                                 label="Instagram"
                                 name="instagram"
                                 className="w-full"
-                                rules={[{ message: 'Please input your Instagram link!' }]}>
+                                rules={[
+                                    {
+                                        pattern: /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/,
+                                        message: 'Please input a valid Instagram link!',
+                                    },
+                                ]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
 
@@ -376,7 +397,12 @@ const AddNew = () => {
                                 label="LinkedIn"
                                 name="linkedin"
                                 className="w-full"
-                                rules={[{ message: 'Please input your LinkedIn link!' }]}>
+                                rules={[
+                                    {
+                                        pattern: /^(https?:\/\/)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})(\/[^\s]*)?$/,
+                                        message: 'Please input a valid LinkedIn link!',
+                                    },
+                                ]}>
                                 <Input placeholder="Input Here" className="w-full" />
                             </Form.Item>
                         </div>
