@@ -32,7 +32,7 @@ interface UserData {
 }
 
 // Sortable row wrapper
-const SortableRow = ({ person, index, children }: { person: UserData; index: number; children: React.ReactNode }) => {
+const SortableRow = ({ person, children }: { person: UserData; index: number; children: React.ReactNode }) => {
     const {
         attributes,
         listeners,
