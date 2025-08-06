@@ -27,6 +27,7 @@ import AllContact from '../pages/about/AllContact/AllContact';
 import Subscribe from '../pages/about/Subscribe/Subscribe';
 import AboutContent from '../pages/about/AboutContent/AboutContent';
 import SocialMedia from '../pages/settings/social-media/SocialMedia';
+import DeletePeople from '../pages/peopleManagement/DeletePeople';
 
 
 const router = createBrowserRouter([
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: "/people-management",
                 element: <PeopleManagement></PeopleManagement>,
+            },
+            {
+                path: "/people-management/:id",
+                element: <DeletePeople></DeletePeople>,
             },
             {
                 path: "/people-management/add-new",
